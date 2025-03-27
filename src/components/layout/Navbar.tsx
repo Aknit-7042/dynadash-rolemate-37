@@ -16,13 +16,26 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import RoleSwitcher from './RoleSwitcher';
 import { cn } from '@/lib/utils';
 import { useRole } from '@/context/RoleContext';
+import { Badge } from '@/components/ui/badge';
+import { Role } from '@/lib/types';
+
+const roleLabels = {
+  hr: 'HR',
+  manager: 'Manager',
+  employee: 'Employee',
+};
+
+const roleColors = {
+  hr: 'bg-hr text-hr-foreground',
+  manager: 'bg-manager text-manager-foreground',
+  employee: 'bg-employee text-employee-foreground',
+};
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
-  const { currentRole } = useRole();
+  const { currentRole, switchRole, isRoleSwitching } = useRole();
   const navigate = useNavigate();
 
   if (!user) return null;
@@ -64,7 +77,25 @@ const Navbar: React.FC = () => {
       <div className="container h-full flex items-center justify-between max-w-7xl">
         <div className="flex items-center gap-6">
           <div className="font-bold text-2xl">MEDHIR</div>
-          <RoleSwitcher />
+          
+          {/* Horizontal role switcher */}
+          <div className="flex items-center gap-2">
+            {user.roles.map((role: Role) => (
+              <Badge
+                key={role}
+                variant="outline"
+                className={cn(
+                  'px-2 py-1 text-xs cursor-pointer transition-all',
+                  currentRole === role 
+                    ? `font-medium ${roleColors[role]}` 
+                    : 'hover:bg-gray-100'
+                )}
+                onClick={() => switchRole(role)}
+              >
+                {roleLabels[role]}
+              </Badge>
+            ))}
+          </div>
         </div>
 
         <nav className="hidden md:flex items-center gap-6">
