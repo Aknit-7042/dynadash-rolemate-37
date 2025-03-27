@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import EmployeesPage from "./pages/EmployeesPage";
+import AttendancePage from "./pages/AttendancePage";
 import DashboardLayout from "./components/layout/DashboardLayout";
 import NotFound from "./pages/NotFound";
 
@@ -28,13 +29,13 @@ const App = () => (
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="employees" element={<EmployeesPage />} />
+              <Route path="attendance" element={<AttendancePage />} />
               <Route path="leave" element={<Dashboard />} />
               <Route path="expenses" element={<Dashboard />} />
               <Route path="reports" element={<Dashboard />} />
               <Route path="users" element={<Dashboard />} />
               <Route path="tasks" element={<Dashboard />} />
               <Route path="team" element={<Dashboard />} />
-              <Route path="attendance" element={<Dashboard />} />
               <Route path="payroll" element={<Dashboard />} />
               <Route path="updates" element={<Dashboard />} />
               <Route path="settings" element={<Dashboard />} />
