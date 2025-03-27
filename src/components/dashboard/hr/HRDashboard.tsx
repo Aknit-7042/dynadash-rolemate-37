@@ -287,7 +287,7 @@ const HRDashboard: React.FC = () => {
                     Track attendance trends and identify patterns
                   </p>
                 </div>
-              </CardContent>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
