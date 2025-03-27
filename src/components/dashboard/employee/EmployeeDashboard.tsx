@@ -39,29 +39,6 @@ const StatsCard: React.FC<StatsCardProps> = ({
   </div>
 );
 
-interface QuickActionProps {
-  title: string;
-  icon: React.ReactNode;
-  color: string;
-  onClick?: () => void;
-}
-
-const QuickAction: React.FC<QuickActionProps> = ({
-  title, icon, color, onClick
-}) => {
-  return (
-    <div 
-      className="flex flex-col items-center justify-center text-center p-2 cursor-pointer hover:bg-gray-50 rounded-md transition-colors"
-      onClick={onClick}
-    >
-      <div className={cn("rounded-full p-1.5", color)}>
-        {icon}
-      </div>
-      <p className="font-medium text-xs mt-1">{title}</p>
-    </div>
-  );
-};
-
 interface UpdateProps {
   title: string;
   content: string;
@@ -107,73 +84,42 @@ const EmployeeDashboard: React.FC = () => {
         <Badge className="bg-employee text-employee-foreground text-sm py-1 px-3">Employee Role</Badge>
       </div>
       
-      <div className="grid grid-cols-2 gap-4">
-        <Card className="bg-background shadow-sm">
-          <CardHeader className="pb-0 pt-3">
-            <CardTitle className="text-md">Dashboard Stats</CardTitle>
-          </CardHeader>
-          <CardContent className="p-3">
-            <div className="grid grid-cols-2 gap-2">
-              <StatsCard 
-                title="Leave Balance"
-                value="21"
-                description="Days remaining"
-                icon={<Calendar className="h-3.5 w-3.5 text-white" />}
-                iconColor="bg-blue-400"
-              />
-              <StatsCard 
-                title="Attendance"
-                value="98%"
-                description="↗ 2% from last month"
-                icon={<User className="h-3.5 w-3.5 text-white" />}
-                iconColor="bg-green-500"
-                descriptionColor="text-green-600"
-              />
-              <StatsCard 
-                title="Today"
-                value={formattedDate}
-                description={`Checked in at ${checkInTime}`}
-                icon={<Clock className="h-3.5 w-3.5 text-white" />}
-                iconColor="bg-orange-400"
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-background shadow-sm">
-          <CardHeader className="pb-0 pt-3">
-            <CardTitle className="text-md">Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent className="p-3">
-            <div className="grid grid-cols-3 gap-2">
-              <QuickAction 
-                title="Apply Leave" 
-                icon={<Calendar className="h-4 w-4 text-blue-600" />}
-                color="text-blue-600"
-                onClick={() => navigate('/dashboard/leave')}
-              />
-              <QuickAction 
-                title="Submit Expense" 
-                icon={<FileText className="h-4 w-4 text-blue-600" />} 
-                color="text-blue-600"
-                onClick={() => navigate('/dashboard/expenses')}
-              />
-              <QuickAction 
-                title="Leaves Management" 
-                icon={<Calendar className="h-4 w-4 text-green-500" />} 
-                color="text-green-500"
-                onClick={() => navigate('/dashboard/leave')}
-              />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="bg-background shadow-sm">
+        <CardHeader className="pb-0 pt-3">
+          <CardTitle className="text-md">Dashboard Stats</CardTitle>
+        </CardHeader>
+        <CardContent className="p-3">
+          <div className="grid grid-cols-2 gap-2">
+            <StatsCard 
+              title="Leave Balance"
+              value="21"
+              description="Days remaining"
+              icon={<Calendar className="h-3.5 w-3.5 text-white" />}
+              iconColor="bg-blue-400"
+            />
+            <StatsCard 
+              title="Attendance"
+              value="98%"
+              description="↗ 2% from last month"
+              icon={<User className="h-3.5 w-3.5 text-white" />}
+              iconColor="bg-green-500"
+              descriptionColor="text-green-600"
+            />
+            <StatsCard 
+              title="Today"
+              value={formattedDate}
+              description={`Checked in at ${checkInTime}`}
+              icon={<Clock className="h-3.5 w-3.5 text-white" />}
+              iconColor="bg-orange-400"
+            />
+          </div>
+        </CardContent>
+      </Card>
       
       <Tabs defaultValue="attendance">
-        <TabsList className="grid w-full max-w-md grid-cols-3 mb-4">
+        <TabsList className="grid w-full max-w-md grid-cols-2 mb-4">
           <TabsTrigger value="attendance">Attendance</TabsTrigger>
           <TabsTrigger value="leave">Leave Balance</TabsTrigger>
-          <TabsTrigger value="payroll">Payroll</TabsTrigger>
         </TabsList>
         
         <TabsContent value="attendance" className="animate-slide-up">
@@ -274,65 +220,6 @@ const EmployeeDashboard: React.FC = () => {
                     <div className="flex items-center gap-4">
                       <span>Apr 5, 2023</span>
                       <Badge variant="outline">1 day</Badge>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="payroll" className="animate-slide-up">
-          <Card>
-            <CardHeader>
-              <CardTitle>Pay Information</CardTitle>
-              <CardDescription>Your salary and payment history</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                <div className="p-4 border rounded-lg">
-                  <p className="text-sm font-medium mb-2">Latest Payslip</p>
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="text-xl font-bold">$4,250.00</p>
-                      <p className="text-xs text-muted-foreground">May 2023</p>
-                    </div>
-                    <Button size="sm">View Details</Button>
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Payment History</p>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 border rounded-md">
-                      <div>
-                        <p className="font-medium">April 2023</p>
-                        <p className="text-xs text-muted-foreground">Paid on Apr 30, 2023</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold">$4,250.00</p>
-                        <Button variant="ghost" size="sm" className="text-xs">Download</Button>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between p-3 border rounded-md">
-                      <div>
-                        <p className="font-medium">March 2023</p>
-                        <p className="text-xs text-muted-foreground">Paid on Mar 31, 2023</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold">$4,250.00</p>
-                        <Button variant="ghost" size="sm" className="text-xs">Download</Button>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between p-3 border rounded-md">
-                      <div>
-                        <p className="font-medium">February 2023</p>
-                        <p className="text-xs text-muted-foreground">Paid on Feb 28, 2023</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold">$4,250.00</p>
-                        <Button variant="ghost" size="sm" className="text-xs">Download</Button>
-                      </div>
                     </div>
                   </div>
                 </div>
