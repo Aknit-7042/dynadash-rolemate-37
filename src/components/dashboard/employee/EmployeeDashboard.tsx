@@ -25,20 +25,41 @@ const StatsCard: React.FC<StatsCardProps> = ({
   title, value, description, icon, iconColor, descriptionColor = "text-muted-foreground"
 }) => (
   <Card className="bg-background shadow-sm hover:shadow-md transition-shadow">
-    <CardContent className="p-6">
+    <CardContent className="p-4">
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-muted-foreground mb-2">{title}</p>
-          <p className="text-4xl font-bold mb-2">{value}</p>
+          <p className="text-muted-foreground mb-1">{title}</p>
+          <p className="text-3xl font-bold mb-1">{value}</p>
           <p className={cn("text-sm", descriptionColor)}>{description}</p>
         </div>
-        <div className={cn("p-3 rounded-lg", iconColor)}>
+        <div className={cn("p-2 rounded-lg", iconColor)}>
           {icon}
         </div>
       </div>
     </CardContent>
   </Card>
 );
+
+interface QuickActionProps {
+  title: string;
+  icon: React.ReactNode;
+  color: string;
+}
+
+const QuickAction: React.FC<QuickActionProps> = ({
+  title, icon, color
+}) => {
+  return (
+    <Card className="hover:shadow-md transition-shadow">
+      <CardContent className="p-4 flex flex-col items-center justify-center text-center space-y-3">
+        <div className={cn("rounded-full p-2", color)}>
+          {icon}
+        </div>
+        <p className="font-medium">{title}</p>
+      </CardContent>
+    </Card>
+  );
+};
 
 interface TaskProps {
   title: string;
@@ -84,29 +105,6 @@ const Task: React.FC<TaskProps> = ({
         </div>
       </div>
     </div>
-  );
-};
-
-interface QuickActionProps {
-  title: string;
-  icon: LucideIcon;
-  description: string;
-  color: string;
-}
-
-const QuickAction: React.FC<QuickActionProps> = ({
-  title, icon: Icon, description, color
-}) => {
-  return (
-    <Button variant="outline" className="h-auto flex-col items-center justify-center gap-2 p-4 card-hover w-full">
-      <div className={cn("rounded-full p-2", color)}>
-        <Icon className="h-6 w-6" />
-      </div>
-      <div className="space-y-1 text-center">
-        <h3 className="font-medium">{title}</h3>
-        <p className="text-xs text-muted-foreground">{description}</p>
-      </div>
-    </Button>
   );
 };
 
@@ -159,7 +157,7 @@ const EmployeeDashboard: React.FC = () => {
           title="My Tasks"
           value="0"
           description="0 due today"
-          icon={<CheckSquare className="h-6 w-6 text-white" />}
+          icon={<CheckSquare className="h-5 w-5 text-white" />}
           iconColor="bg-blue-600"
           descriptionColor="text-orange-500"
         />
@@ -167,14 +165,14 @@ const EmployeeDashboard: React.FC = () => {
           title="Leave Balance"
           value="21"
           description="Days remaining in 2023"
-          icon={<Calendar className="h-6 w-6 text-white" />}
+          icon={<Calendar className="h-5 w-5 text-white" />}
           iconColor="bg-blue-400"
         />
         <StatsCard 
           title="Attendance"
           value="98%"
           description="↗ 2% from last month"
-          icon={<User className="h-6 w-6 text-white" />}
+          icon={<User className="h-5 w-5 text-white" />}
           iconColor="bg-green-500"
           descriptionColor="text-green-600"
         />
@@ -182,10 +180,40 @@ const EmployeeDashboard: React.FC = () => {
           title="Today"
           value={formattedDate}
           description={`Checked in at ${checkInTime}`}
-          icon={<Clock className="h-6 w-6 text-white" />}
+          icon={<Clock className="h-5 w-5 text-white" />}
           iconColor="bg-orange-400"
         />
       </div>
+      
+      <Card className="bg-background">
+        <CardHeader className="pb-0">
+          <CardTitle>Quick Actions</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <QuickAction 
+              title="Apply Leave" 
+              icon={<Calendar className="h-5 w-5 text-blue-600" />}
+              color="bg-blue-100"
+            />
+            <QuickAction 
+              title="Submit Expense" 
+              icon={<FileText className="h-5 w-5 text-blue-600" />} 
+              color="bg-blue-100"
+            />
+            <QuickAction 
+              title="Time Sheet" 
+              icon={<Clock className="h-5 w-5 text-orange-500" />} 
+              color="bg-orange-100"
+            />
+            <QuickAction 
+              title="Documents" 
+              icon={<FileText className="h-5 w-5 text-green-500" />} 
+              color="bg-green-100"
+            />
+          </div>
+        </CardContent>
+      </Card>
       
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
