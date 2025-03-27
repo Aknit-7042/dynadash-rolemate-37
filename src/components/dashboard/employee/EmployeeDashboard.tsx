@@ -24,20 +24,16 @@ interface StatsCardProps {
 const StatsCard: React.FC<StatsCardProps> = ({
   title, value, description, icon, iconColor, descriptionColor = "text-muted-foreground"
 }) => (
-  <Card className="bg-background shadow-sm hover:shadow-md transition-shadow">
-    <CardContent className="p-3">
-      <div className="flex justify-between items-start">
-        <div>
-          <p className="text-muted-foreground text-xs mb-1">{title}</p>
-          <p className="text-2xl font-bold mb-1">{value}</p>
-          <p className={cn("text-xs", descriptionColor)}>{description}</p>
-        </div>
-        <div className={cn("p-1.5 rounded-lg", iconColor)}>
-          {icon}
-        </div>
-      </div>
-    </CardContent>
-  </Card>
+  <div className="flex items-center gap-2 p-1.5">
+    <div className={cn("p-1.5 rounded-lg", iconColor)}>
+      {icon}
+    </div>
+    <div>
+      <p className="text-xs mb-0.5 text-muted-foreground">{title}</p>
+      <p className="text-sm font-bold">{value}</p>
+      <p className={cn("text-xs", descriptionColor)}>{description}</p>
+    </div>
+  </div>
 );
 
 interface QuickActionProps {
@@ -50,14 +46,12 @@ const QuickAction: React.FC<QuickActionProps> = ({
   title, icon, color
 }) => {
   return (
-    <Card className="hover:shadow-sm transition-shadow border">
-      <CardContent className="p-4 flex flex-col items-center justify-center text-center space-y-2">
-        <div className={cn("rounded-full", color)}>
-          {icon}
-        </div>
-        <p className="font-medium text-sm">{title}</p>
-      </CardContent>
-    </Card>
+    <div className="flex flex-col items-center justify-center text-center p-2">
+      <div className={cn("rounded-full p-1.5", color)}>
+        {icon}
+      </div>
+      <p className="font-medium text-xs mt-1">{title}</p>
+    </div>
   );
 };
 
@@ -152,68 +146,77 @@ const EmployeeDashboard: React.FC = () => {
         <Badge className="bg-employee text-employee-foreground text-sm py-1 px-3">Employee Role</Badge>
       </div>
       
-      <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
-        <StatsCard 
-          title="My Tasks"
-          value="0"
-          description="0 due today"
-          icon={<CheckSquare className="h-4 w-4 text-white" />}
-          iconColor="bg-blue-600"
-          descriptionColor="text-orange-500"
-        />
-        <StatsCard 
-          title="Leave Balance"
-          value="21"
-          description="Days remaining in 2023"
-          icon={<Calendar className="h-4 w-4 text-white" />}
-          iconColor="bg-blue-400"
-        />
-        <StatsCard 
-          title="Attendance"
-          value="98%"
-          description="↗ 2% from last month"
-          icon={<User className="h-4 w-4 text-white" />}
-          iconColor="bg-green-500"
-          descriptionColor="text-green-600"
-        />
-        <StatsCard 
-          title="Today"
-          value={formattedDate}
-          description={`Checked in at ${checkInTime}`}
-          icon={<Clock className="h-4 w-4 text-white" />}
-          iconColor="bg-orange-400"
-        />
+      <div className="grid grid-cols-2 gap-4">
+        <Card className="bg-background shadow-sm">
+          <CardHeader className="pb-0 pt-3">
+            <CardTitle className="text-md">Dashboard Stats</CardTitle>
+          </CardHeader>
+          <CardContent className="p-3">
+            <div className="grid grid-cols-2 gap-2">
+              <StatsCard 
+                title="My Tasks"
+                value="0"
+                description="0 due today"
+                icon={<CheckSquare className="h-3.5 w-3.5 text-white" />}
+                iconColor="bg-blue-600"
+                descriptionColor="text-orange-500"
+              />
+              <StatsCard 
+                title="Leave Balance"
+                value="21"
+                description="Days remaining"
+                icon={<Calendar className="h-3.5 w-3.5 text-white" />}
+                iconColor="bg-blue-400"
+              />
+              <StatsCard 
+                title="Attendance"
+                value="98%"
+                description="↗ 2% from last month"
+                icon={<User className="h-3.5 w-3.5 text-white" />}
+                iconColor="bg-green-500"
+                descriptionColor="text-green-600"
+              />
+              <StatsCard 
+                title="Today"
+                value={formattedDate}
+                description={`Checked in at ${checkInTime}`}
+                icon={<Clock className="h-3.5 w-3.5 text-white" />}
+                iconColor="bg-orange-400"
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-background shadow-sm">
+          <CardHeader className="pb-0 pt-3">
+            <CardTitle className="text-md">Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent className="p-3">
+            <div className="grid grid-cols-2 gap-2">
+              <QuickAction 
+                title="Apply Leave" 
+                icon={<Calendar className="h-4 w-4 text-blue-600" />}
+                color="text-blue-600"
+              />
+              <QuickAction 
+                title="Submit Expense" 
+                icon={<FileText className="h-4 w-4 text-blue-600" />} 
+                color="text-blue-600"
+              />
+              <QuickAction 
+                title="Time Sheet" 
+                icon={<Clock className="h-4 w-4 text-orange-500" />} 
+                color="text-orange-500"
+              />
+              <QuickAction 
+                title="Documents" 
+                icon={<FileText className="h-4 w-4 text-green-500" />} 
+                color="text-green-500"
+              />
+            </div>
+          </CardContent>
+        </Card>
       </div>
-      
-      <Card className="bg-background">
-        <CardHeader className="pb-0 pt-4">
-          <CardTitle className="text-xl">Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent className="p-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <QuickAction 
-              title="Apply Leave" 
-              icon={<Calendar className="h-5 w-5 text-blue-600" />}
-              color="text-blue-600"
-            />
-            <QuickAction 
-              title="Submit Expense" 
-              icon={<FileText className="h-5 w-5 text-blue-600" />} 
-              color="text-blue-600"
-            />
-            <QuickAction 
-              title="Time Sheet" 
-              icon={<Clock className="h-5 w-5 text-orange-500" />} 
-              color="text-orange-500"
-            />
-            <QuickAction 
-              title="Documents" 
-              icon={<FileText className="h-5 w-5 text-green-500" />} 
-              color="text-green-500"
-            />
-          </div>
-        </CardContent>
-      </Card>
       
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
