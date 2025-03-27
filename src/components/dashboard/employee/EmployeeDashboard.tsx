@@ -140,7 +140,7 @@ const EmployeeDashboard: React.FC = () => {
           <CardContent className="p-3">
             <div className="grid grid-cols-3 gap-2">
               <QuickAction 
-                title="Leave Management" 
+                title="Apply Leave" 
                 icon={<Calendar className="h-4 w-4 text-blue-600" />}
                 color="text-blue-600"
               />
@@ -150,8 +150,8 @@ const EmployeeDashboard: React.FC = () => {
                 color="text-blue-600"
               />
               <QuickAction 
-                title="Expense Management" 
-                icon={<CreditCard className="h-4 w-4 text-green-500" />} 
+                title="Profile Updates" 
+                icon={<User className="h-4 w-4 text-green-500" />} 
                 color="text-green-500"
               />
             </div>
