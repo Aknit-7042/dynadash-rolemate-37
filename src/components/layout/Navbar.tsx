@@ -11,7 +11,8 @@ import {
   User,
   FileText,
   DollarSign,
-  Users
+  Users,
+  BarChart4
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -55,6 +56,7 @@ const Navbar: React.FC = () => {
 
   // Navigation items for HR role
   const hrNavigationItems = [
+    { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
     { name: 'Employees', href: '/dashboard/employees', icon: Users },
     { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
     { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
@@ -62,8 +64,9 @@ const Navbar: React.FC = () => {
 
   // Navigation items for other roles
   const standardNavigationItems = [
-    { name: 'Leaves Management', href: '/dashboard/leave', icon: Calendar },
-    { name: 'Expense Management', href: '/dashboard/expenses', icon: FileText },
+    { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
+    { name: 'Leaves', href: '/dashboard/leave', icon: Calendar },
+    { name: 'Expenses', href: '/dashboard/expenses', icon: FileText },
     { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
     { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
     { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
