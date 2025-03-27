@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Check, X } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
@@ -10,6 +10,7 @@ import {
   TableHead,
   TableCell
 } from '@/components/ui/table';
+import AttendanceCharts from '@/components/dashboard/hr/AttendanceCharts';
 
 const AttendancePage = () => {
   // Sample data for attendance records
@@ -127,6 +128,9 @@ const AttendancePage = () => {
           <TabsTrigger value="attendance" className="text-blue-500">
             Attendance Tracker
           </TabsTrigger>
+          <TabsTrigger value="analytics">
+            Analytics
+          </TabsTrigger>
           <TabsTrigger value="leave">
             Leave Tracker
           </TabsTrigger>
@@ -183,6 +187,10 @@ const AttendancePage = () => {
               </Table>
             </div>
           </div>
+        </TabsContent>
+
+        <TabsContent value="analytics">
+          <AttendanceCharts />
         </TabsContent>
 
         <TabsContent value="leave">

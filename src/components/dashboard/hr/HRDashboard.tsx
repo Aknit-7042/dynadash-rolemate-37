@@ -5,8 +5,10 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { BarChart, Calendar, Clock, CreditCard, DollarSign, Users, ArrowUpRight, LineChart, FileText, UserCircle, PiggyBank, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import AttendanceCharts from './AttendanceCharts';
 
 interface StatCardProps {
   title: string;
@@ -102,10 +104,15 @@ const leaveRequestsData: LeaveRequestData[] = [
 const HRDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('leave');
   const [showRequestDetails, setShowRequestDetails] = useState(false);
+  const [showAttendanceCharts, setShowAttendanceCharts] = useState(false);
   
   const handleOpenRequestsClick = () => {
     setShowRequestDetails(true);
     setActiveTab('leave');
+  };
+
+  const handleAttendanceClick = () => {
+    setShowAttendanceCharts(true);
   };
 
   return <div className="space-y-6 animate-fade-in">
@@ -132,6 +139,7 @@ const HRDashboard: React.FC = () => {
           trend="vs target (90%)" 
           trendValue="+3.8%" 
           trendDirection="up" 
+          onClick={handleAttendanceClick}
         />
         <StatCard 
           title="Open Requests" 
@@ -155,8 +163,16 @@ const HRDashboard: React.FC = () => {
         />
       </div>
       
+      <Dialog open={showAttendanceCharts} onOpenChange={setShowAttendanceCharts}>
+        <DialogContent className="max-w-5xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl">Attendance Analytics</DialogTitle>
+          </DialogHeader>
+          <AttendanceCharts />
+        </DialogContent>
+      </Dialog>
+      
       <Tabs defaultValue="leave" value={activeTab} onValueChange={setActiveTab}>
-        
         
         <TabsContent value="leave" className="animate-slide-up">
           {showRequestDetails && (
