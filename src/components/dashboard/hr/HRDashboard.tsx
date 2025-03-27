@@ -140,6 +140,7 @@ const HRDashboard: React.FC = () => {
           trendValue="+3.8%" 
           trendDirection="up" 
           onClick={handleAttendanceClick}
+          isActive={showAttendanceCharts}
         />
         <StatCard 
           title="Open Requests" 
@@ -150,7 +151,7 @@ const HRDashboard: React.FC = () => {
           trendValue="5 new" 
           trendDirection="neutral" 
           onClick={handleOpenRequestsClick}
-          isActive={showRequestDetails}
+          isActive={showRequestDetails && !showAttendanceCharts}
         />
         <StatCard 
           title="Total Budget" 
@@ -175,7 +176,7 @@ const HRDashboard: React.FC = () => {
       <Tabs defaultValue="leave" value={activeTab} onValueChange={setActiveTab}>
         
         <TabsContent value="leave" className="animate-slide-up">
-          {showRequestDetails && (
+          {showRequestDetails && !showAttendanceCharts && (
             <Card>
               <CardHeader>
                 <CardTitle>Request Details</CardTitle>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Check, X } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -12,114 +11,118 @@ import {
 } from '@/components/ui/table';
 import AttendanceCharts from '@/components/dashboard/hr/AttendanceCharts';
 
+// Sample data for attendance records
+const attendanceData = [
+  {
+    id: 'MED001',
+    name: 'Arun',
+    department: 'SALES',
+    attendance: '18/20',
+    days: [false, false, true, true, true, false, true, false, false, true, true, true, true, false]
+  },
+  {
+    id: 'MED002',
+    name: 'Naman',
+    department: 'Design',
+    attendance: '18/20',
+    days: [false, false, true, false, true, true, true, false, false, true, true, true, true, false]
+  },
+  {
+    id: 'MED003',
+    name: 'Amit',
+    department: 'Marketing',
+    attendance: '18/20',
+    days: [false, false, true, true, true, false, true, false, false, true, true, false, true, true]
+  },
+  {
+    id: 'MED004',
+    name: 'Mahesh',
+    department: 'SALES',
+    attendance: '18/20',
+    days: [false, false, false, true, true, true, true, false, false, true, true, true, false, true]
+  },
+  {
+    id: 'MED005',
+    name: 'Rohit',
+    department: 'HR',
+    attendance: '18/20',
+    days: [false, false, true, true, true, true, false, false, false, true, true, true, true, false]
+  },
+  {
+    id: 'MED006',
+    name: 'Suresh',
+    department: 'IT',
+    attendance: '18/20',
+    days: [false, false, true, true, false, true, true, false, false, 'half-day', true, true, true, true]
+  },
+  {
+    id: 'MED007',
+    name: 'Arun',
+    department: 'SALES',
+    attendance: '18/20',
+    days: [false, false, true, true, true, false, true, false, false, true, true, true, true, false]
+  },
+  {
+    id: 'MED008',
+    name: 'Naman',
+    department: 'Design',
+    attendance: '18/20',
+    days: [false, false, true, false, true, true, true, false, false, true, true, true, true, false]
+  },
+  {
+    id: 'MED009',
+    name: 'Amit',
+    department: 'Marketing',
+    attendance: '18/20',
+    days: [false, false, true, true, true, false, true, false, false, true, true, false, true, false]
+  }
+];
+
+const days = [
+  { day: '01', weekday: 'Mon' },
+  { day: '02', weekday: 'Tue' },
+  { day: '03', weekday: 'Wed' },
+  { day: '04', weekday: 'Thu' },
+  { day: '05', weekday: 'Fri' },
+  { day: '06', weekday: 'Sat' },
+  { day: '07', weekday: 'Sun' },
+  { day: '08', weekday: 'Mon' },
+  { day: '09', weekday: 'Tue' },
+  { day: '10', weekday: 'Wed' },
+  { day: '11', weekday: 'Thu' },
+  { day: '12', weekday: 'Fri' },
+  { day: '13', weekday: 'Sat' },
+  { day: '14', weekday: 'Sun' }
+];
+
+// Render attendance cell based on attendance status
+const renderAttendanceCell = (status: boolean | string) => {
+  if (status === 'half-day') {
+    return (
+      <div className="flex justify-center">
+        <div className="w-6 h-6 rounded-full bg-purple-500"></div>
+      </div>
+    );
+  } else if (status === true) {
+    return (
+      <div className="flex justify-center">
+        <Check className="w-5 h-5 text-green-500" />
+      </div>
+    );
+  } else if (status === false) {
+    return (
+      <div className="flex justify-center">
+        <X className="w-5 h-5 text-red-500" />
+      </div>
+    );
+  }
+  return null;
+};
+
 const AttendancePage = () => {
   // Sample data for attendance records
-  const attendanceData = [
-    {
-      id: 'MED001',
-      name: 'Arun',
-      department: 'SALES',
-      attendance: '18/20',
-      days: [false, false, true, true, true, false, true, false, false, true, true, true, true, false]
-    },
-    {
-      id: 'MED002',
-      name: 'Naman',
-      department: 'Design',
-      attendance: '18/20',
-      days: [false, false, true, false, true, true, true, false, false, true, true, true, true, false]
-    },
-    {
-      id: 'MED003',
-      name: 'Amit',
-      department: 'Marketing',
-      attendance: '18/20',
-      days: [false, false, true, true, true, false, true, false, false, true, true, false, true, true]
-    },
-    {
-      id: 'MED004',
-      name: 'Mahesh',
-      department: 'SALES',
-      attendance: '18/20',
-      days: [false, false, false, true, true, true, true, false, false, true, true, true, false, true]
-    },
-    {
-      id: 'MED005',
-      name: 'Rohit',
-      department: 'HR',
-      attendance: '18/20',
-      days: [false, false, true, true, true, true, false, false, false, true, true, true, true, false]
-    },
-    {
-      id: 'MED006',
-      name: 'Suresh',
-      department: 'IT',
-      attendance: '18/20',
-      days: [false, false, true, true, false, true, true, false, false, 'half-day', true, true, true, true]
-    },
-    {
-      id: 'MED007',
-      name: 'Arun',
-      department: 'SALES',
-      attendance: '18/20',
-      days: [false, false, true, true, true, false, true, false, false, true, true, true, true, false]
-    },
-    {
-      id: 'MED008',
-      name: 'Naman',
-      department: 'Design',
-      attendance: '18/20',
-      days: [false, false, true, false, true, true, true, false, false, true, true, true, true, false]
-    },
-    {
-      id: 'MED009',
-      name: 'Amit',
-      department: 'Marketing',
-      attendance: '18/20',
-      days: [false, false, true, true, true, false, true, false, false, true, true, false, true, false]
-    }
-  ];
 
-  const days = [
-    { day: '01', weekday: 'Mon' },
-    { day: '02', weekday: 'Tue' },
-    { day: '03', weekday: 'Wed' },
-    { day: '04', weekday: 'Thu' },
-    { day: '05', weekday: 'Fri' },
-    { day: '06', weekday: 'Sat' },
-    { day: '07', weekday: 'Sun' },
-    { day: '08', weekday: 'Mon' },
-    { day: '09', weekday: 'Tue' },
-    { day: '10', weekday: 'Wed' },
-    { day: '11', weekday: 'Thu' },
-    { day: '12', weekday: 'Fri' },
-    { day: '13', weekday: 'Sat' },
-    { day: '14', weekday: 'Sun' }
-  ];
-
-  // Render attendance cell based on attendance status
-  const renderAttendanceCell = (status: boolean | string) => {
-    if (status === 'half-day') {
-      return (
-        <div className="flex justify-center">
-          <div className="w-6 h-6 rounded-full bg-purple-500"></div>
-        </div>
-      );
-    } else if (status === true) {
-      return (
-        <div className="flex justify-center">
-          <Check className="w-5 h-5 text-green-500" />
-        </div>
-      );
-    } else if (status === false) {
-      return (
-        <div className="flex justify-center">
-          <X className="w-5 h-5 text-red-500" />
-        </div>
-      );
-    }
-    return null;
-  };
+  const [activeTab, setActiveTab] = useState('attendance');
 
   return (
     <div className="space-y-6">
