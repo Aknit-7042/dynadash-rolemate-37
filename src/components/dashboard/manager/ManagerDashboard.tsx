@@ -45,8 +45,8 @@ const ManagerDashboard: React.FC = () => {
     }
   ];
 
-  const handleViewMember = (memberId: string) => {
-    navigate(`/dashboard/team-member/${memberId}`);
+  const handleViewTeam = () => {
+    navigate('/dashboard/team');
   };
   
   return (
@@ -65,6 +65,7 @@ const ManagerDashboard: React.FC = () => {
           trend="this quarter"
           trendValue="+2"
           trendDirection="up"
+          onClick={handleViewTeam}
         />
         <StatCard 
           title="Leave Requests" 
@@ -109,7 +110,7 @@ const ManagerDashboard: React.FC = () => {
                   <td className="p-3">{member.gender}</td>
                   <td className="p-3">
                     <button 
-                      onClick={() => handleViewMember(member.id)}
+                      onClick={() => navigate('/dashboard/team-member/' + member.id)}
                       className="text-blue-600 hover:text-blue-800 font-medium"
                     >
                       View Details

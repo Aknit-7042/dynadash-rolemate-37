@@ -13,13 +13,14 @@ export interface StatCardProps {
   trendValue?: string;
   icon: React.ReactNode;
   trendDirection?: 'up' | 'down' | 'neutral';
+  onClick?: () => void;
 }
 
 const StatCard: React.FC<StatCardProps> = ({ 
-  title, value, description, trend, trendValue, icon, trendDirection = 'neutral' 
+  title, value, description, trend, trendValue, icon, trendDirection = 'neutral', onClick
 }) => {
   return (
-    <Card className="card-hover">
+    <Card className={cn("card-hover", onClick && "cursor-pointer")} onClick={onClick}>
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <div className="h-9 w-9 flex items-center justify-center rounded-full bg-muted">
