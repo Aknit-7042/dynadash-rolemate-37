@@ -9,6 +9,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import EmployeesPage from "./pages/EmployeesPage";
 import DashboardLayout from "./components/layout/DashboardLayout";
 import NotFound from "./pages/NotFound";
 
@@ -26,7 +27,7 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
-              <Route path="employees" element={<Dashboard />} />
+              <Route path="employees" element={<EmployeesPage />} />
               <Route path="leave" element={<Dashboard />} />
               <Route path="expenses" element={<Dashboard />} />
               <Route path="reports" element={<Dashboard />} />
