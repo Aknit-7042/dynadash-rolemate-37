@@ -25,14 +25,14 @@ const StatsCard: React.FC<StatsCardProps> = ({
   title, value, description, icon, iconColor, descriptionColor = "text-muted-foreground"
 }) => (
   <Card className="bg-background shadow-sm hover:shadow-md transition-shadow">
-    <CardContent className="p-4">
+    <CardContent className="p-3">
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-muted-foreground mb-1">{title}</p>
-          <p className="text-3xl font-bold mb-1">{value}</p>
-          <p className={cn("text-sm", descriptionColor)}>{description}</p>
+          <p className="text-muted-foreground text-xs mb-1">{title}</p>
+          <p className="text-2xl font-bold mb-1">{value}</p>
+          <p className={cn("text-xs", descriptionColor)}>{description}</p>
         </div>
-        <div className={cn("p-2 rounded-lg", iconColor)}>
+        <div className={cn("p-1.5 rounded-lg", iconColor)}>
           {icon}
         </div>
       </div>
@@ -50,12 +50,12 @@ const QuickAction: React.FC<QuickActionProps> = ({
   title, icon, color
 }) => {
   return (
-    <Card className="hover:shadow-md transition-shadow">
-      <CardContent className="p-4 flex flex-col items-center justify-center text-center space-y-3">
-        <div className={cn("rounded-full p-2", color)}>
+    <Card className="hover:shadow-sm transition-shadow border">
+      <CardContent className="p-4 flex flex-col items-center justify-center text-center space-y-2">
+        <div className={cn("rounded-full", color)}>
           {icon}
         </div>
-        <p className="font-medium">{title}</p>
+        <p className="font-medium text-sm">{title}</p>
       </CardContent>
     </Card>
   );
@@ -146,18 +146,18 @@ const EmployeeDashboard: React.FC = () => {
   const checkInTime = "6:09 PM";
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-4 animate-fade-in">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Employee Dashboard</h1>
         <Badge className="bg-employee text-employee-foreground text-sm py-1 px-3">Employee Role</Badge>
       </div>
       
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
         <StatsCard 
           title="My Tasks"
           value="0"
           description="0 due today"
-          icon={<CheckSquare className="h-5 w-5 text-white" />}
+          icon={<CheckSquare className="h-4 w-4 text-white" />}
           iconColor="bg-blue-600"
           descriptionColor="text-orange-500"
         />
@@ -165,14 +165,14 @@ const EmployeeDashboard: React.FC = () => {
           title="Leave Balance"
           value="21"
           description="Days remaining in 2023"
-          icon={<Calendar className="h-5 w-5 text-white" />}
+          icon={<Calendar className="h-4 w-4 text-white" />}
           iconColor="bg-blue-400"
         />
         <StatsCard 
           title="Attendance"
           value="98%"
           description="↗ 2% from last month"
-          icon={<User className="h-5 w-5 text-white" />}
+          icon={<User className="h-4 w-4 text-white" />}
           iconColor="bg-green-500"
           descriptionColor="text-green-600"
         />
@@ -180,42 +180,42 @@ const EmployeeDashboard: React.FC = () => {
           title="Today"
           value={formattedDate}
           description={`Checked in at ${checkInTime}`}
-          icon={<Clock className="h-5 w-5 text-white" />}
+          icon={<Clock className="h-4 w-4 text-white" />}
           iconColor="bg-orange-400"
         />
       </div>
       
       <Card className="bg-background">
-        <CardHeader className="pb-0">
-          <CardTitle>Quick Actions</CardTitle>
+        <CardHeader className="pb-0 pt-4">
+          <CardTitle className="text-xl">Quick Actions</CardTitle>
         </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <CardContent className="p-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <QuickAction 
               title="Apply Leave" 
               icon={<Calendar className="h-5 w-5 text-blue-600" />}
-              color="bg-blue-100"
+              color="text-blue-600"
             />
             <QuickAction 
               title="Submit Expense" 
               icon={<FileText className="h-5 w-5 text-blue-600" />} 
-              color="bg-blue-100"
+              color="text-blue-600"
             />
             <QuickAction 
               title="Time Sheet" 
               icon={<Clock className="h-5 w-5 text-orange-500" />} 
-              color="bg-orange-100"
+              color="text-orange-500"
             />
             <QuickAction 
               title="Documents" 
               icon={<FileText className="h-5 w-5 text-green-500" />} 
-              color="bg-green-100"
+              color="text-green-500"
             />
           </div>
         </CardContent>
       </Card>
       
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>My Tasks</CardTitle>
