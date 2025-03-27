@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,9 +7,38 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Calendar, Clock, CreditCard, 
   FileText, MessageSquare, CheckCircle2, 
-  LucideIcon, PieChart, Users, Bell
+  LucideIcon, PieChart, Users, Bell,
+  CheckSquare, AlertTriangle, ArrowUpRight, User
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+interface StatsCardProps {
+  title: string;
+  value: string | number;
+  description: string;
+  icon: React.ReactNode;
+  iconColor: string;
+  descriptionColor?: string;
+}
+
+const StatsCard: React.FC<StatsCardProps> = ({
+  title, value, description, icon, iconColor, descriptionColor = "text-muted-foreground"
+}) => (
+  <Card className="bg-background shadow-sm hover:shadow-md transition-shadow">
+    <CardContent className="p-6">
+      <div className="flex justify-between items-start">
+        <div>
+          <p className="text-muted-foreground mb-2">{title}</p>
+          <p className="text-4xl font-bold mb-2">{value}</p>
+          <p className={cn("text-sm", descriptionColor)}>{description}</p>
+        </div>
+        <div className={cn("p-3 rounded-lg", iconColor)}>
+          {icon}
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+);
 
 interface TaskProps {
   title: string;
@@ -113,6 +141,12 @@ const Update: React.FC<UpdateProps> = ({
 };
 
 const EmployeeDashboard: React.FC = () => {
+  const today = new Date();
+  const dateOptions: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+  const formattedDate = today.toLocaleDateString('en-US', dateOptions);
+  
+  const checkInTime = "6:09 PM";
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
@@ -120,30 +154,36 @@ const EmployeeDashboard: React.FC = () => {
         <Badge className="bg-employee text-employee-foreground text-sm py-1 px-3">Employee Role</Badge>
       </div>
       
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <QuickAction 
-          title="Request Leave" 
-          icon={Calendar}
-          description="Apply for time off"
-          color="bg-blue-100"
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        <StatsCard 
+          title="My Tasks"
+          value="0"
+          description="0 due today"
+          icon={<CheckSquare className="h-6 w-6 text-white" />}
+          iconColor="bg-blue-600"
+          descriptionColor="text-orange-500"
         />
-        <QuickAction 
-          title="Submit Timesheet" 
-          icon={Clock}
-          description="Record your working hours"
-          color="bg-green-100"
+        <StatsCard 
+          title="Leave Balance"
+          value="21"
+          description="Days remaining in 2023"
+          icon={<Calendar className="h-6 w-6 text-white" />}
+          iconColor="bg-blue-400"
         />
-        <QuickAction 
-          title="Expense Claim" 
-          icon={CreditCard}
-          description="Submit new expense reports"
-          color="bg-yellow-100"
+        <StatsCard 
+          title="Attendance"
+          value="98%"
+          description="↗ 2% from last month"
+          icon={<User className="h-6 w-6 text-white" />}
+          iconColor="bg-green-500"
+          descriptionColor="text-green-600"
         />
-        <QuickAction 
-          title="View Pay Slips" 
-          icon={FileText}
-          description="Access your salary information"
-          color="bg-purple-100"
+        <StatsCard 
+          title="Today"
+          value={formattedDate}
+          description={`Checked in at ${checkInTime}`}
+          icon={<Clock className="h-6 w-6 text-white" />}
+          iconColor="bg-orange-400"
         />
       </div>
       
