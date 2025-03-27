@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -200,7 +199,6 @@ const ManagerDashboard: React.FC = () => {
   const { currentRole } = useRole();
   const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
   
-  // Team members data
   const teamMembers = [
     { 
       name: "Sarah Miller", 
@@ -232,7 +230,6 @@ const ManagerDashboard: React.FC = () => {
     }
   ];
 
-  // Department organization charts
   const departmentOrgCharts = {
     Engineering: [
       { name: "John Peterson", position: "Engineering Manager", isManager: true },
@@ -291,7 +288,6 @@ const ManagerDashboard: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 gap-4">
-              {/* Manager at the top */}
               <div className="flex justify-center mb-6">
                 {departmentOrgCharts[selectedTeam as keyof typeof departmentOrgCharts]
                   .filter(member => member.isManager)
@@ -306,7 +302,6 @@ const ManagerDashboard: React.FC = () => {
                 }
               </div>
               
-              {/* Team members in a grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {departmentOrgCharts[selectedTeam as keyof typeof departmentOrgCharts]
                   .filter(member => !member.isManager)
@@ -425,7 +420,13 @@ const ManagerDashboard: React.FC = () => {
                 ))}
               </CardContent>
               <CardFooter>
-                <Button size="sm" className="ml-auto">View Team</Button>
+                <Button 
+                  size="sm" 
+                  className="ml-auto"
+                  onClick={() => setSelectedTeam("Engineering")}
+                >
+                  View Team
+                </Button>
               </CardFooter>
             </Card>
           </div>
