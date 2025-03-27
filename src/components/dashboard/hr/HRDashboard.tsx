@@ -3,17 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { 
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
-} from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { 
-  BarChart, Calendar, Clock, CreditCard, 
-  DollarSign, Users, ArrowUpRight, LineChart,
-  FileText, UserCircle, PiggyBank, ChevronRight
-} from 'lucide-react';
+import { BarChart, Calendar, Clock, CreditCard, DollarSign, Users, ArrowUpRight, LineChart, FileText, UserCircle, PiggyBank, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
 interface StatCardProps {
   title: string;
   value: string;
@@ -23,12 +16,16 @@ interface StatCardProps {
   icon: React.ReactNode;
   trendDirection?: 'up' | 'down' | 'neutral';
 }
-
-const StatCard: React.FC<StatCardProps> = ({ 
-  title, value, description, trend, trendValue, icon, trendDirection = 'neutral' 
+const StatCard: React.FC<StatCardProps> = ({
+  title,
+  value,
+  description,
+  trend,
+  trendValue,
+  icon,
+  trendDirection = 'neutral'
 }) => {
-  return (
-    <Card className="card-hover">
+  return <Card className="card-hover">
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <div className="h-9 w-9 flex items-center justify-center rounded-full bg-muted">
@@ -38,27 +35,16 @@ const StatCard: React.FC<StatCardProps> = ({
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
         <p className="text-xs text-muted-foreground mt-1">{description}</p>
-        {trend && trendValue && (
-          <div className="flex items-center gap-1 mt-2">
-            <Badge 
-              variant={trendDirection === 'down' ? 'destructive' : 'outline'} 
-              className={cn(
-                "px-1 py-0 flex items-center gap-1 text-xs",
-                trendDirection === 'up' && "bg-green-100 text-green-800 border-green-200",
-                trendDirection === 'neutral' && "bg-blue-100 text-blue-800 border-blue-200",
-              )}
-            >
+        {trend && trendValue && <div className="flex items-center gap-1 mt-2">
+            <Badge variant={trendDirection === 'down' ? 'destructive' : 'outline'} className={cn("px-1 py-0 flex items-center gap-1 text-xs", trendDirection === 'up' && "bg-green-100 text-green-800 border-green-200", trendDirection === 'neutral' && "bg-blue-100 text-blue-800 border-blue-200")}>
               {trendDirection === 'up' && <ArrowUpRight className="h-3 w-3" />}
               {trendValue}
             </Badge>
             <span className="text-xs text-muted-foreground">{trend}</span>
-          </div>
-        )}
+          </div>}
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
-
 interface LeaveRequestData {
   id: string;
   employeeName: string;
@@ -69,95 +55,51 @@ interface LeaveRequestData {
   leaveBalance: string;
   reason: string;
 }
-
-const leaveRequestsData: LeaveRequestData[] = [
-  {
-    id: 'EMP101',
-    employeeName: 'John Doe',
-    department: 'Sales',
-    leaveType: 'Annual Leave',
-    startDate: 'Jun 15, 2023',
-    endDate: 'Jun 18, 2023',
-    leaveBalance: '15 days',
-    reason: 'Family vacation'
-  },
-  {
-    id: 'EMP102',
-    employeeName: 'Jane Smith',
-    department: 'Marketing',
-    leaveType: 'Sick Leave',
-    startDate: 'Jun 20, 2023',
-    endDate: 'Jun 21, 2023',
-    leaveBalance: '8 days',
-    reason: 'Medical appointment'
-  },
-  {
-    id: 'EMP103',
-    employeeName: 'Michael Brown',
-    department: 'Engineering',
-    leaveType: 'Emergency Leave',
-    startDate: 'Jun 25, 2023',
-    endDate: 'Jun 30, 2023',
-    leaveBalance: '5 days',
-    reason: 'Personal emergency'
-  }
-];
-
+const leaveRequestsData: LeaveRequestData[] = [{
+  id: 'EMP101',
+  employeeName: 'John Doe',
+  department: 'Sales',
+  leaveType: 'Annual Leave',
+  startDate: 'Jun 15, 2023',
+  endDate: 'Jun 18, 2023',
+  leaveBalance: '15 days',
+  reason: 'Family vacation'
+}, {
+  id: 'EMP102',
+  employeeName: 'Jane Smith',
+  department: 'Marketing',
+  leaveType: 'Sick Leave',
+  startDate: 'Jun 20, 2023',
+  endDate: 'Jun 21, 2023',
+  leaveBalance: '8 days',
+  reason: 'Medical appointment'
+}, {
+  id: 'EMP103',
+  employeeName: 'Michael Brown',
+  department: 'Engineering',
+  leaveType: 'Emergency Leave',
+  startDate: 'Jun 25, 2023',
+  endDate: 'Jun 30, 2023',
+  leaveBalance: '5 days',
+  reason: 'Personal emergency'
+}];
 const HRDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('leave');
-
-  return (
-    <div className="space-y-6 animate-fade-in">
+  return <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">HR Dashboard</h1>
         <Badge className="bg-hr text-hr-foreground text-sm py-1 px-3">HR Role</Badge>
       </div>
       
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard 
-          title="Total Employees" 
-          value="248" 
-          description="Active employees in the organization"
-          icon={<Users className="h-5 w-5" />}
-          trend="from last month"
-          trendValue="+12"
-          trendDirection="up"
-        />
-        <StatCard 
-          title="Attendance Rate" 
-          value="93.8%" 
-          description="Average monthly attendance rate"
-          icon={<Clock className="h-5 w-5" />}
-          trend="vs target (90%)"
-          trendValue="+3.8%"
-          trendDirection="up"
-        />
-        <StatCard 
-          title="Open Requests" 
-          value="17" 
-          description="Leave and expense requests pending"
-          icon={<Calendar className="h-5 w-5" />}
-          trend="last 7 days"
-          trendValue="5 new"
-          trendDirection="neutral"
-        />
-        <StatCard 
-          title="Total Budget" 
-          value="$842,250" 
-          description="Q3 HR budget allocation"
-          icon={<DollarSign className="h-5 w-5" />}
-          trend="remaining"
-          trendValue="36%"
-          trendDirection="neutral"
-        />
+        <StatCard title="Total Employees" value="248" description="Active employees in the organization" icon={<Users className="h-5 w-5" />} trend="from last month" trendValue="+12" trendDirection="up" />
+        <StatCard title="Attendance Rate" value="93.8%" description="Average monthly attendance rate" icon={<Clock className="h-5 w-5" />} trend="vs target (90%)" trendValue="+3.8%" trendDirection="up" />
+        <StatCard title="Open Requests" value="17" description="Leave and expense requests pending" icon={<Calendar className="h-5 w-5" />} trend="last 7 days" trendValue="5 new" trendDirection="neutral" />
+        <StatCard title="Total Budget" value="$842,250" description="Q3 HR budget allocation" icon={<DollarSign className="h-5 w-5" />} trend="remaining" trendValue="36%" trendDirection="neutral" />
       </div>
       
       <Tabs defaultValue="leave" value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full max-w-md grid-cols-3 mb-4">
-          <TabsTrigger value="leave">Leave Requests</TabsTrigger>
-          <TabsTrigger value="expenses">Expenses</TabsTrigger>
-          <TabsTrigger value="attendance">Attendance</TabsTrigger>
-        </TabsList>
+        
         
         <TabsContent value="leave" className="animate-slide-up">
           <Card>
@@ -167,10 +109,7 @@ const HRDashboard: React.FC = () => {
             <CardContent>
               <div className="space-y-6">
                 <div className="grid grid-cols-4 gap-2">
-                  <Button variant="outline" className={cn(
-                    "flex items-center justify-center gap-2 rounded-md py-6",
-                    activeTab === "leave" && "bg-blue-50 text-blue-600 border-blue-200"
-                  )}>
+                  <Button variant="outline" className={cn("flex items-center justify-center gap-2 rounded-md py-6", activeTab === "leave" && "bg-blue-50 text-blue-600 border-blue-200")}>
                     <Calendar className="h-5 w-5" />
                     <span>Leave Requests</span>
                   </Button>
@@ -203,8 +142,7 @@ const HRDashboard: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {leaveRequestsData.map((request) => (
-                      <TableRow key={request.id}>
+                    {leaveRequestsData.map(request => <TableRow key={request.id}>
                         <TableCell className="font-medium">{request.id}</TableCell>
                         <TableCell>{request.employeeName}</TableCell>
                         <TableCell>{request.department}</TableCell>
@@ -227,8 +165,7 @@ const HRDashboard: React.FC = () => {
                             </Button>
                           </div>
                         </TableCell>
-                      </TableRow>
-                    ))}
+                      </TableRow>)}
                   </TableBody>
                 </Table>
               </div>
@@ -296,8 +233,6 @@ const HRDashboard: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>;
 };
-
 export default HRDashboard;
