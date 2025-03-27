@@ -11,7 +11,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import EmployeesPage from "./pages/EmployeesPage";
 import AttendancePage from "./pages/AttendancePage";
-import DashboardLayout from "./components/layout/DashboardLayout";
+import MainLayout from "./components/layout/MainLayout";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,7 +26,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route path="/dashboard" element={<MainLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="employees" element={<EmployeesPage />} />
               <Route path="attendance" element={<AttendancePage />} />

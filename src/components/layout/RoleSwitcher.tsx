@@ -16,9 +16,9 @@ const roleIcons = {
 };
 
 const roleLabels = {
-  hr: 'HR Dashboard',
-  manager: 'Manager Dashboard',
-  employee: 'Employee Dashboard',
+  hr: 'HR',
+  manager: 'Manager',
+  employee: 'Employee',
 };
 
 const roleColors = {
@@ -73,7 +73,7 @@ const RoleSwitcher: React.FC = () => {
           </svg>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-56 p-1 glass">
+      <PopoverContent className="w-48 p-1">
         <div className="grid gap-1">
           {user.roles.map((role) => (
             <Button
