@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -55,53 +56,6 @@ const QuickAction: React.FC<QuickActionProps> = ({
   );
 };
 
-interface TaskProps {
-  title: string;
-  dueDate: string;
-  status: 'completed' | 'in-progress' | 'pending';
-  priority: 'high' | 'medium' | 'low';
-}
-
-const Task: React.FC<TaskProps> = ({
-  title, dueDate, status, priority
-}) => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed': return 'bg-green-100 text-green-800 border-green-200';
-      case 'in-progress': return 'bg-blue-100 text-blue-800 border-blue-200';
-      default: return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    }
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return 'text-red-600';
-      case 'medium': return 'text-orange-600';
-      default: return 'text-green-600';
-    }
-  };
-
-  return (
-    <div className="flex items-center justify-between p-3 border-b last:border-0">
-      <div className="flex-1">
-        <div className="flex items-center gap-2">
-          <p className="font-medium">{title}</p>
-          <Badge className={cn("capitalize", getStatusColor(status))}>
-            {status}
-          </Badge>
-        </div>
-        <div className="flex items-center text-sm text-muted-foreground mt-1">
-          <Calendar className="h-3.5 w-3.5 mr-1" />
-          <span className="mr-3">Due: {dueDate}</span>
-          <span className={cn("capitalize font-medium", getPriorityColor(priority))}>
-            {priority} priority
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 interface UpdateProps {
   title: string;
   content: string;
@@ -154,14 +108,6 @@ const EmployeeDashboard: React.FC = () => {
           <CardContent className="p-3">
             <div className="grid grid-cols-2 gap-2">
               <StatsCard 
-                title="My Tasks"
-                value="0"
-                description="0 due today"
-                icon={<CheckSquare className="h-3.5 w-3.5 text-white" />}
-                iconColor="bg-blue-600"
-                descriptionColor="text-orange-500"
-              />
-              <StatsCard 
                 title="Leave Balance"
                 value="21"
                 description="Days remaining"
@@ -204,94 +150,12 @@ const EmployeeDashboard: React.FC = () => {
                 color="text-blue-600"
               />
               <QuickAction 
-                title="Time Sheet" 
-                icon={<Clock className="h-4 w-4 text-orange-500" />} 
-                color="text-orange-500"
-              />
-              <QuickAction 
-                title="Documents" 
-                icon={<FileText className="h-4 w-4 text-green-500" />} 
+                title="Profile Updates" 
+                icon={<User className="h-4 w-4 text-green-500" />} 
                 color="text-green-500"
               />
             </div>
           </CardContent>
-        </Card>
-      </div>
-      
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>My Tasks</CardTitle>
-            <CardDescription>Track your assigned tasks and deadlines</CardDescription>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="px-6 py-4 border-b">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="font-medium">Current Progress</h3>
-                <Badge variant="outline">7/10 tasks</Badge>
-              </div>
-              <Progress value={70} className="h-2" />
-            </div>
-            <div className="divide-y">
-              <Task 
-                title="Complete employee satisfaction survey" 
-                dueDate="Today"
-                status="pending"
-                priority="high"
-              />
-              <Task 
-                title="Submit quarterly objectives" 
-                dueDate="Jun 15, 2023"
-                status="in-progress"
-                priority="high"
-              />
-              <Task 
-                title="Review department guidelines" 
-                dueDate="Jun 20, 2023"
-                status="pending"
-                priority="medium"
-              />
-              <Task 
-                title="Prepare for team meeting" 
-                dueDate="Jun 10, 2023"
-                status="completed"
-                priority="medium"
-              />
-            </div>
-          </CardContent>
-          <CardFooter className="border-t px-6 py-4">
-            <Button variant="outline" size="sm" className="ml-auto">View All Tasks</Button>
-          </CardFooter>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Company Updates</CardTitle>
-            <CardDescription>Latest news and announcements</CardDescription>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y">
-              <Update 
-                title="Office Closure Notification" 
-                content="The office will be closed on July 4th for Independence Day. All employees will have the day off with pay."
-                date="2 hours ago"
-                isImportant={true}
-              />
-              <Update 
-                title="New Health Benefits Available" 
-                content="We've updated our health insurance plans with new coverage options. Open enrollment begins next week."
-                date="Yesterday"
-              />
-              <Update 
-                title="Quarterly Town Hall" 
-                content="Join us next Friday at 3 PM for our quarterly company update and Q&A session with leadership."
-                date="3 days ago"
-              />
-            </div>
-          </CardContent>
-          <CardFooter className="border-t px-6 py-4">
-            <Button variant="outline" size="sm" className="ml-auto">View All Updates</Button>
-          </CardFooter>
         </Card>
       </div>
       
