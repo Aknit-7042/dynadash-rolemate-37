@@ -17,16 +17,16 @@ import {
 const navigation: NavigationItem[] = [
   { name: 'Overview', href: '/dashboard', icon: BarChart4, roles: ['hr', 'manager', 'employee'] },
   { name: 'Employees', href: '/dashboard/employees', icon: Users, roles: ['hr', 'manager'] },
-  { name: 'Leave Management', href: '/dashboard/leave', icon: Calendar, roles: ['hr', 'manager', 'employee'] },
-  { name: 'Expenses', href: '/dashboard/expenses', icon: CreditCard, roles: ['hr', 'employee'] },
-  { name: 'Reports', href: '/dashboard/reports', icon: FileText, roles: ['hr', 'manager'] },
-  { name: 'User Management', href: '/dashboard/users', icon: UserCog, roles: ['hr'] },
+  { name: 'Leave Management', href: '/dashboard/leave', icon: Calendar, roles: ['manager', 'employee'] },
+  { name: 'Expenses', href: '/dashboard/expenses', icon: CreditCard, roles: ['employee'] },
+  { name: 'Reports', href: '/dashboard/reports', icon: FileText, roles: ['manager'] },
+  { name: 'User Management', href: '/dashboard/users', icon: UserCog, roles: [] },
   { name: 'Tasks', href: '/dashboard/tasks', icon: CheckSquare, roles: ['manager', 'employee'] },
   { name: 'Team', href: '/dashboard/team', icon: Briefcase, roles: ['manager'] },
   { name: 'Attendance', href: '/dashboard/attendance', icon: Clock, roles: ['hr', 'manager', 'employee'] },
   { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt, roles: ['hr', 'employee'] },
-  { name: 'Updates', href: '/dashboard/updates', icon: Bell, roles: ['hr', 'manager', 'employee'] },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings, roles: ['hr', 'manager', 'employee'] },
+  { name: 'Updates', href: '/dashboard/updates', icon: Bell, roles: ['manager', 'employee'] },
+  { name: 'Settings', href: '/dashboard/settings', icon: Settings, roles: ['manager', 'employee'] },
 ];
 
 const Sidebar: React.FC = () => {
