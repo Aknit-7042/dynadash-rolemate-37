@@ -1,147 +1,52 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { useRole } from '@/context/RoleContext';
 import { BarChart3, Clock, Users } from 'lucide-react';
 import StatCard from './StatCard';
-import TaskSection from './TaskSection';
-import TeamPerformance from './TeamPerformance';
-import DeadlinesSection from './DeadlinesSection';
-import OrgChart from './OrgChart';
-import { TeamMemberProps } from './TeamMember';
-import { TaskProps } from './Task';
-import { OrgChartMemberProps } from './OrgChartMember';
+import { useNavigate } from 'react-router-dom';
 
 const ManagerDashboard: React.FC = () => {
   const { currentRole } = useRole();
-  const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
+  const navigate = useNavigate();
   
-  const teamMembers: TeamMemberProps[] = [
+  const teamMembers = [
     { 
+      id: "TM001",
       name: "Sarah Miller", 
-      position: "Senior Developer", 
-      taskCompleted: 15, 
-      taskTotal: 18,
-      onClick: () => handleTeamMemberClick("Sarah Miller")
+      position: "Senior Developer",
+      email: "sarah.miller@example.com",
+      phone: "555-123-4567",
+      gender: "Female"
     },
     { 
+      id: "TM002",
       name: "Alex Chen", 
-      position: "UX Designer", 
-      taskCompleted: 12, 
-      taskTotal: 15,
-      onClick: () => handleTeamMemberClick("Alex Chen")
+      position: "UX Designer",
+      email: "alex.chen@example.com",
+      phone: "555-234-5678",
+      gender: "Male"
     },
     { 
+      id: "TM003",
       name: "Emily Davis", 
-      position: "Marketing Specialist", 
-      taskCompleted: 8, 
-      taskTotal: 12,
-      onClick: () => handleTeamMemberClick("Emily Davis")
+      position: "Marketing Specialist",
+      email: "emily.davis@example.com",
+      phone: "555-345-6789",
+      gender: "Female"
     },
     { 
+      id: "TM004",
       name: "Michael Brown", 
-      position: "Junior Developer", 
-      taskCompleted: 6, 
-      taskTotal: 10,
-      onClick: () => handleTeamMemberClick("Michael Brown")
+      position: "Junior Developer",
+      email: "michael.brown@example.com",
+      phone: "555-456-7890",
+      gender: "Male"
     }
   ];
 
-  const departmentOrgCharts: Record<string, OrgChartMemberProps[]> = {
-    Engineering: [
-      { name: "John Peterson", position: "Engineering Manager", isManager: true },
-      { name: "Sarah Miller", position: "Senior Developer" },
-      { name: "Michael Brown", position: "Junior Developer" },
-      { name: "David Wilson", position: "Backend Developer" },
-      { name: "Lisa Johnson", position: "QA Engineer" }
-    ],
-    Design: [
-      { name: "Rebecca Taylor", position: "Design Director", isManager: true },
-      { name: "Alex Chen", position: "UX Designer" },
-      { name: "Olivia White", position: "UI Designer" },
-      { name: "James Martin", position: "Graphic Designer" }
-    ],
-    Marketing: [
-      { name: "Thomas Baker", position: "Marketing Director", isManager: true },
-      { name: "Emily Davis", position: "Marketing Specialist" },
-      { name: "Sophia Garcia", position: "Content Strategist" },
-      { name: "Daniel Lewis", position: "Social Media Manager" }
-    ]
-  };
-
-  const tasks: TaskProps[] = [
-    { 
-      title: "Complete Q2 performance reviews",
-      assignee: "John Peterson",
-      dueDate: "Jun 15, 2023",
-      priority: "high",
-      status: "in-progress"
-    },
-    { 
-      title: "Prepare client presentation",
-      assignee: "Sarah Miller",
-      dueDate: "Jun 10, 2023",
-      priority: "high",
-      status: "pending"
-    },
-    { 
-      title: "Update project documentation",
-      assignee: "Alex Chen",
-      dueDate: "Jun 20, 2023",
-      priority: "medium",
-      status: "in-progress"
-    },
-    { 
-      title: "Review marketing strategy",
-      assignee: "Emily Davis",
-      dueDate: "Jun 8, 2023",
-      priority: "medium",
-      status: "completed"
-    },
-    { 
-      title: "Schedule team building event",
-      assignee: "Michael Brown",
-      dueDate: "Jun 25, 2023",
-      priority: "low",
-      status: "pending"
-    }
-  ];
-
-  const deadlines = [
-    {
-      title: "Product Launch",
-      description: "Finalize v2.0 feature set",
-      date: "Jun 15, 2023"
-    },
-    {
-      title: "Quarterly Review",
-      description: "Present team performance metrics",
-      date: "Jun 30, 2023"
-    },
-    {
-      title: "Budget Planning",
-      description: "Submit Q3 resource requirements",
-      date: "Jul 5, 2023"
-    }
-  ];
-
-  const handleTeamMemberClick = (name: string) => {
-    const memberDepartment = getMemberDepartment(name);
-    if (memberDepartment) {
-      setSelectedTeam(memberDepartment);
-    }
-  };
-
-  const getMemberDepartment = (name: string): string | null => {
-    for (const department in departmentOrgCharts) {
-      const found = departmentOrgCharts[department].find(m => m.name === name);
-      if (found) return department;
-    }
-    return null;
-  };
-
-  const handleCloseOrgChart = () => {
-    setSelectedTeam(null);
+  const handleViewMember = (memberId: string) => {
+    navigate(`/dashboard/team-member/${memberId}`);
   };
   
   return (
@@ -151,59 +56,71 @@ const ManagerDashboard: React.FC = () => {
         <Badge className="bg-manager text-manager-foreground text-sm py-1 px-3">Manager Role</Badge>
       </div>
       
-      {selectedTeam ? (
-        <OrgChart
-          department={selectedTeam}
-          members={departmentOrgCharts[selectedTeam]}
-          onClose={handleCloseOrgChart}
+      <div className="grid gap-4 md:grid-cols-3">
+        <StatCard 
+          title="Team Members" 
+          value="12" 
+          description="People in your department"
+          icon={<Users className="h-5 w-5" />}
+          trend="this quarter"
+          trendValue="+2"
+          trendDirection="up"
         />
-      ) : (
-        <>
-          <div className="grid gap-4 md:grid-cols-3">
-            <StatCard 
-              title="Team Members" 
-              value="12" 
-              description="People in your department"
-              icon={<Users className="h-5 w-5" />}
-              trend="this quarter"
-              trendValue="+2"
-              trendDirection="up"
-            />
-            <StatCard 
-              title="Leave Requests" 
-              value="5" 
-              description="Pending approval from your team"
-              icon={<Clock className="h-5 w-5" />}
-              trend="since last week"
-              trendValue="+3"
-              trendDirection="neutral"
-            />
-            <StatCard 
-              title="Performance" 
-              value="94%" 
-              description="Average team performance score"
-              icon={<BarChart3 className="h-5 w-5" />}
-              trend="vs last quarter"
-              trendValue="+2%"
-              trendDirection="up"
-            />
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            <TaskSection tasks={tasks} />
-            
-            <TeamPerformance 
-              members={teamMembers}
-              onMemberClick={handleTeamMemberClick}
-              onViewTeam={() => setSelectedTeam("Engineering")}
-            />
-          </div>
-          
-          <div className="grid md:grid-cols-1 gap-6">
-            <DeadlinesSection deadlines={deadlines} />
-          </div>
-        </>
-      )}
+        <StatCard 
+          title="Leave Requests" 
+          value="5" 
+          description="Pending approval from your team"
+          icon={<Clock className="h-5 w-5" />}
+          trend="since last week"
+          trendValue="+3"
+          trendDirection="neutral"
+        />
+        <StatCard 
+          title="Performance" 
+          value="94%" 
+          description="Average team performance score"
+          icon={<BarChart3 className="h-5 w-5" />}
+          trend="vs last quarter"
+          trendValue="+2%"
+          trendDirection="up"
+        />
+      </div>
+      
+      <div className="bg-white rounded-lg border shadow p-6">
+        <h2 className="text-xl font-semibold mb-4">Team Members</h2>
+        
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-b bg-gray-50">
+                <th className="text-left p-3 font-medium text-gray-700">ID</th>
+                <th className="text-left p-3 font-medium text-gray-700">Name</th>
+                <th className="text-left p-3 font-medium text-gray-700">Position</th>
+                <th className="text-left p-3 font-medium text-gray-700">Gender</th>
+                <th className="text-left p-3 font-medium text-gray-700">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {teamMembers.map(member => (
+                <tr key={member.id} className="border-b hover:bg-gray-50">
+                  <td className="p-3">{member.id}</td>
+                  <td className="p-3 font-medium">{member.name}</td>
+                  <td className="p-3">{member.position}</td>
+                  <td className="p-3">{member.gender}</td>
+                  <td className="p-3">
+                    <button 
+                      onClick={() => handleViewMember(member.id)}
+                      className="text-blue-600 hover:text-blue-800 font-medium"
+                    >
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };
