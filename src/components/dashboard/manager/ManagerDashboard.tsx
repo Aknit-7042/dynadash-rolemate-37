@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useRole } from '@/context/RoleContext';
 import { 
   BarChart3, CheckCircle2, Clock, ArrowUpRight, 
-  Users, CheckSquare, XCircle, Briefcase, AlertCircle 
+  Users, Briefcase, AlertCircle, X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -18,10 +18,11 @@ interface TeamMemberProps {
   avatar?: string;
   taskCompleted: number;
   taskTotal: number;
+  onClick: () => void;
 }
 
 const TeamMember: React.FC<TeamMemberProps> = ({ 
-  name, position, avatar, taskCompleted, taskTotal 
+  name, position, avatar, taskCompleted, taskTotal, onClick
 }) => {
   const progress = (taskCompleted / taskTotal) * 100;
   
@@ -34,7 +35,10 @@ const TeamMember: React.FC<TeamMemberProps> = ({
   };
 
   return (
-    <div className="flex items-center p-4 rounded-lg border mb-3">
+    <div 
+      className="flex items-center p-4 rounded-lg border mb-3 cursor-pointer hover:bg-accent/50 transition-colors"
+      onClick={onClick}
+    >
       <Avatar className="h-10 w-10 mr-4">
         <AvatarImage src={avatar} alt={name} />
         <AvatarFallback>{getInitials(name)}</AvatarFallback>
@@ -47,6 +51,41 @@ const TeamMember: React.FC<TeamMemberProps> = ({
         <p className="text-sm text-muted-foreground mb-2">{position}</p>
         <Progress value={progress} className="h-2" />
       </div>
+    </div>
+  );
+};
+
+interface OrgChartMemberProps {
+  name: string;
+  position: string;
+  avatar?: string;
+  isManager?: boolean;
+  department?: string;
+}
+
+const OrgChartMember: React.FC<OrgChartMemberProps> = ({ 
+  name, position, avatar, isManager = false, department
+}) => {
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(part => part[0])
+      .join('')
+      .toUpperCase();
+  };
+
+  return (
+    <div className={cn(
+      "flex flex-col items-center p-4 rounded-lg border",
+      isManager ? "bg-accent/10 border-primary" : ""
+    )}>
+      <Avatar className={cn("h-16 w-16 mb-2", isManager ? "ring-2 ring-primary" : "")}>
+        <AvatarImage src={avatar} alt={name} />
+        <AvatarFallback className="text-lg">{getInitials(name)}</AvatarFallback>
+      </Avatar>
+      <p className="font-medium text-center">{name}</p>
+      <p className="text-sm text-muted-foreground text-center">{position}</p>
+      {department && <Badge className="mt-1">{department}</Badge>}
     </div>
   );
 };
@@ -159,6 +198,73 @@ const StatCard: React.FC<StatCardProps> = ({
 
 const ManagerDashboard: React.FC = () => {
   const { currentRole } = useRole();
+  const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
+  
+  // Team members data
+  const teamMembers = [
+    { 
+      name: "Sarah Miller", 
+      position: "Senior Developer", 
+      taskCompleted: 15, 
+      taskTotal: 18,
+      department: "Engineering"
+    },
+    { 
+      name: "Alex Chen", 
+      position: "UX Designer", 
+      taskCompleted: 12, 
+      taskTotal: 15,
+      department: "Design"
+    },
+    { 
+      name: "Emily Davis", 
+      position: "Marketing Specialist", 
+      taskCompleted: 8, 
+      taskTotal: 12,
+      department: "Marketing"
+    },
+    { 
+      name: "Michael Brown", 
+      position: "Junior Developer", 
+      taskCompleted: 6, 
+      taskTotal: 10,
+      department: "Engineering"
+    }
+  ];
+
+  // Department organization charts
+  const departmentOrgCharts = {
+    Engineering: [
+      { name: "John Peterson", position: "Engineering Manager", isManager: true },
+      { name: "Sarah Miller", position: "Senior Developer" },
+      { name: "Michael Brown", position: "Junior Developer" },
+      { name: "David Wilson", position: "Backend Developer" },
+      { name: "Lisa Johnson", position: "QA Engineer" }
+    ],
+    Design: [
+      { name: "Rebecca Taylor", position: "Design Director", isManager: true },
+      { name: "Alex Chen", position: "UX Designer" },
+      { name: "Olivia White", position: "UI Designer" },
+      { name: "James Martin", position: "Graphic Designer" }
+    ],
+    Marketing: [
+      { name: "Thomas Baker", position: "Marketing Director", isManager: true },
+      { name: "Emily Davis", position: "Marketing Specialist" },
+      { name: "Sophia Garcia", position: "Content Strategist" },
+      { name: "Daniel Lewis", position: "Social Media Manager" }
+    ]
+  };
+
+  const handleTeamMemberClick = (name: string) => {
+    const member = teamMembers.find(m => m.name === name);
+    if (member) {
+      setSelectedTeam(member.department);
+    }
+  };
+
+  const handleCloseOrgChart = () => {
+    setSelectedTeam(null);
+  };
   
   return (
     <div className="space-y-6 animate-fade-in">
@@ -167,225 +273,198 @@ const ManagerDashboard: React.FC = () => {
         <Badge className="bg-manager text-manager-foreground text-sm py-1 px-3">Manager Role</Badge>
       </div>
       
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard 
-          title="Team Members" 
-          value="12" 
-          description="People in your department"
-          icon={<Users className="h-5 w-5" />}
-          trend="this quarter"
-          trendValue="+2"
-          trendDirection="up"
-        />
-        <StatCard 
-          title="Tasks Completed" 
-          value="78" 
-          description="Out of 103 total tasks"
-          icon={<CheckSquare className="h-5 w-5" />}
-          trend="completion rate"
-          trendValue="76%"
-          trendDirection="up"
-        />
-        <StatCard 
-          title="Leave Requests" 
-          value="5" 
-          description="Pending approval from your team"
-          icon={<Clock className="h-5 w-5" />}
-          trend="since last week"
-          trendValue="+3"
-          trendDirection="neutral"
-        />
-        <StatCard 
-          title="Performance" 
-          value="94%" 
-          description="Average team performance score"
-          icon={<BarChart3 className="h-5 w-5" />}
-          trend="vs last quarter"
-          trendValue="+2%"
-          trendDirection="up"
-        />
-      </div>
-      
-      <div className="grid md:grid-cols-3 gap-6">
-        <Card className="md:col-span-2">
-          <CardHeader>
-            <CardTitle>Task Management</CardTitle>
-            <CardDescription>Monitor and manage team tasks</CardDescription>
-          </CardHeader>
-          <CardContent className="max-h-[400px] overflow-auto">
-            <Task 
-              title="Complete Q2 performance reviews"
-              assignee="John Peterson"
-              dueDate="Jun 15, 2023"
-              priority="high"
-              status="in-progress"
-            />
-            <Task 
-              title="Prepare client presentation"
-              assignee="Sarah Miller"
-              dueDate="Jun 10, 2023"
-              priority="high"
-              status="pending"
-            />
-            <Task 
-              title="Update project documentation"
-              assignee="Alex Chen"
-              dueDate="Jun 20, 2023"
-              priority="medium"
-              status="in-progress"
-            />
-            <Task 
-              title="Review marketing strategy"
-              assignee="Emily Davis"
-              dueDate="Jun 8, 2023"
-              priority="medium"
-              status="completed"
-            />
-            <Task 
-              title="Schedule team building event"
-              assignee="Michael Brown"
-              dueDate="Jun 25, 2023"
-              priority="low"
-              status="pending"
-            />
-          </CardContent>
-          <CardFooter>
-            <Button size="sm" className="ml-auto">View All Tasks</Button>
-          </CardFooter>
-        </Card>
-        
+      {selectedTeam ? (
         <Card>
-          <CardHeader>
-            <CardTitle>Team Performance</CardTitle>
-            <CardDescription>Member task completion status</CardDescription>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>{selectedTeam} Department</CardTitle>
+              <CardDescription>Organizational structure</CardDescription>
+            </div>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full" 
+              onClick={handleCloseOrgChart}
+            >
+              <X className="h-5 w-5" />
+            </Button>
           </CardHeader>
           <CardContent>
-            <TeamMember 
-              name="Sarah Miller"
-              position="Senior Developer"
-              taskCompleted={15}
-              taskTotal={18}
-            />
-            <TeamMember 
-              name="Alex Chen"
-              position="UX Designer"
-              taskCompleted={12}
-              taskTotal={15}
-            />
-            <TeamMember 
-              name="Emily Davis"
-              position="Marketing Specialist"
-              taskCompleted={8}
-              taskTotal={12}
-            />
-            <TeamMember 
-              name="Michael Brown"
-              position="Junior Developer"
-              taskCompleted={6}
-              taskTotal={10}
-            />
-          </CardContent>
-          <CardFooter>
-            <Button size="sm" className="ml-auto">View Team</Button>
-          </CardFooter>
-        </Card>
-      </div>
-      
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Upcoming Deadlines</CardTitle>
-            <CardDescription>Major projects and milestones</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between border-b pb-4">
-                <div>
-                  <p className="font-medium">Product Launch</p>
-                  <p className="text-sm text-muted-foreground">Finalize v2.0 feature set</p>
-                </div>
-                <Badge>Jun 15, 2023</Badge>
+            <div className="grid grid-cols-1 gap-4">
+              {/* Manager at the top */}
+              <div className="flex justify-center mb-6">
+                {departmentOrgCharts[selectedTeam as keyof typeof departmentOrgCharts]
+                  .filter(member => member.isManager)
+                  .map(manager => (
+                    <OrgChartMember 
+                      key={manager.name}
+                      name={manager.name}
+                      position={manager.position}
+                      isManager={true}
+                    />
+                  ))
+                }
               </div>
-              <div className="flex items-center justify-between border-b pb-4">
-                <div>
-                  <p className="font-medium">Quarterly Review</p>
-                  <p className="text-sm text-muted-foreground">Present team performance metrics</p>
-                </div>
-                <Badge>Jun 30, 2023</Badge>
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium">Budget Planning</p>
-                  <p className="text-sm text-muted-foreground">Submit Q3 resource requirements</p>
-                </div>
-                <Badge>Jul 5, 2023</Badge>
+              
+              {/* Team members in a grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {departmentOrgCharts[selectedTeam as keyof typeof departmentOrgCharts]
+                  .filter(member => !member.isManager)
+                  .map(member => (
+                    <OrgChartMember 
+                      key={member.name}
+                      name={member.name}
+                      position={member.position}
+                    />
+                  ))
+                }
               </div>
             </div>
           </CardContent>
+          <CardFooter>
+            <Button onClick={handleCloseOrgChart} className="ml-auto">
+              Back to Dashboard
+            </Button>
+          </CardFooter>
         </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Approval Requests</CardTitle>
-            <CardDescription>Items requiring your attention</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-start justify-between border-b pb-4">
-                <div className="flex items-start gap-2">
-                  <Briefcase className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <p className="font-medium">Time Off Request</p>
-                    <p className="text-sm text-muted-foreground">Sarah Miller - Jun 20-24</p>
+      ) : (
+        <>
+          <div className="grid gap-4 md:grid-cols-3">
+            <StatCard 
+              title="Team Members" 
+              value="12" 
+              description="People in your department"
+              icon={<Users className="h-5 w-5" />}
+              trend="this quarter"
+              trendValue="+2"
+              trendDirection="up"
+            />
+            <StatCard 
+              title="Leave Requests" 
+              value="5" 
+              description="Pending approval from your team"
+              icon={<Clock className="h-5 w-5" />}
+              trend="since last week"
+              trendValue="+3"
+              trendDirection="neutral"
+            />
+            <StatCard 
+              title="Performance" 
+              value="94%" 
+              description="Average team performance score"
+              icon={<BarChart3 className="h-5 w-5" />}
+              trend="vs last quarter"
+              trendValue="+2%"
+              trendDirection="up"
+            />
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="md:col-span-2">
+              <CardHeader>
+                <CardTitle>Task Management</CardTitle>
+                <CardDescription>Monitor and manage team tasks</CardDescription>
+              </CardHeader>
+              <CardContent className="max-h-[400px] overflow-auto">
+                <Task 
+                  title="Complete Q2 performance reviews"
+                  assignee="John Peterson"
+                  dueDate="Jun 15, 2023"
+                  priority="high"
+                  status="in-progress"
+                />
+                <Task 
+                  title="Prepare client presentation"
+                  assignee="Sarah Miller"
+                  dueDate="Jun 10, 2023"
+                  priority="high"
+                  status="pending"
+                />
+                <Task 
+                  title="Update project documentation"
+                  assignee="Alex Chen"
+                  dueDate="Jun 20, 2023"
+                  priority="medium"
+                  status="in-progress"
+                />
+                <Task 
+                  title="Review marketing strategy"
+                  assignee="Emily Davis"
+                  dueDate="Jun 8, 2023"
+                  priority="medium"
+                  status="completed"
+                />
+                <Task 
+                  title="Schedule team building event"
+                  assignee="Michael Brown"
+                  dueDate="Jun 25, 2023"
+                  priority="low"
+                  status="pending"
+                />
+              </CardContent>
+              <CardFooter>
+                <Button size="sm" className="ml-auto">View All Tasks</Button>
+              </CardFooter>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Team Performance</CardTitle>
+                <CardDescription>Member task completion status</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {teamMembers.map(member => (
+                  <TeamMember 
+                    key={member.name}
+                    name={member.name}
+                    position={member.position}
+                    taskCompleted={member.taskCompleted}
+                    taskTotal={member.taskTotal}
+                    onClick={() => handleTeamMemberClick(member.name)}
+                  />
+                ))}
+              </CardContent>
+              <CardFooter>
+                <Button size="sm" className="ml-auto">View Team</Button>
+              </CardFooter>
+            </Card>
+          </div>
+          
+          <div className="grid md:grid-cols-1 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Upcoming Deadlines</CardTitle>
+                <CardDescription>Major projects and milestones</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between border-b pb-4">
+                    <div>
+                      <p className="font-medium">Product Launch</p>
+                      <p className="text-sm text-muted-foreground">Finalize v2.0 feature set</p>
+                    </div>
+                    <Badge>Jun 15, 2023</Badge>
+                  </div>
+                  <div className="flex items-center justify-between border-b pb-4">
+                    <div>
+                      <p className="font-medium">Quarterly Review</p>
+                      <p className="text-sm text-muted-foreground">Present team performance metrics</p>
+                    </div>
+                    <Badge>Jun 30, 2023</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium">Budget Planning</p>
+                      <p className="text-sm text-muted-foreground">Submit Q3 resource requirements</p>
+                    </div>
+                    <Badge>Jul 5, 2023</Badge>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button size="icon" variant="outline" className="h-8 w-8 rounded-full">
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
-                  </Button>
-                  <Button size="icon" variant="outline" className="h-8 w-8 rounded-full">
-                    <XCircle className="h-4 w-4 text-red-500" />
-                  </Button>
-                </div>
-              </div>
-              <div className="flex items-start justify-between border-b pb-4">
-                <div className="flex items-start gap-2">
-                  <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <p className="font-medium">Overtime Approval</p>
-                    <p className="text-sm text-muted-foreground">Alex Chen - 8 hours</p>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <Button size="icon" variant="outline" className="h-8 w-8 rounded-full">
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
-                  </Button>
-                  <Button size="icon" variant="outline" className="h-8 w-8 rounded-full">
-                    <XCircle className="h-4 w-4 text-red-500" />
-                  </Button>
-                </div>
-              </div>
-              <div className="flex items-start justify-between">
-                <div className="flex items-start gap-2">
-                  <Briefcase className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <p className="font-medium">Equipment Request</p>
-                    <p className="text-sm text-muted-foreground">Michael Brown - New Laptop</p>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <Button size="icon" variant="outline" className="h-8 w-8 rounded-full">
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
-                  </Button>
-                  <Button size="icon" variant="outline" className="h-8 w-8 rounded-full">
-                    <XCircle className="h-4 w-4 text-red-500" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              </CardContent>
+            </Card>
+          </div>
+        </>
+      )}
     </div>
   );
 };
