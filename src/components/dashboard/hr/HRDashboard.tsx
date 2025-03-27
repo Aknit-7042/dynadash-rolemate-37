@@ -1,12 +1,16 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { 
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { 
   BarChart, Calendar, Clock, CreditCard, 
-  DollarSign, Users, ArrowUpRight, LineChart 
+  DollarSign, Users, ArrowUpRight, LineChart,
+  FileText, UserCircle, PiggyBank, ChevronRight
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -55,60 +59,53 @@ const StatCard: React.FC<StatCardProps> = ({
   );
 };
 
-interface LeaveRequestProps {
-  name: string;
-  avatar?: string;
+interface LeaveRequestData {
+  id: string;
+  employeeName: string;
   department: string;
+  leaveType: string;
   startDate: string;
   endDate: string;
+  leaveBalance: string;
   reason: string;
-  status: 'pending' | 'approved' | 'rejected';
 }
 
-const LeaveRequest: React.FC<LeaveRequestProps> = ({
-  name, avatar, department, startDate, endDate, reason, status
-}) => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'approved': return 'bg-green-100 text-green-800 border-green-200';
-      case 'rejected': return 'bg-red-100 text-red-800 border-red-200';
-      default: return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    }
-  };
-
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(part => part[0])
-      .join('')
-      .toUpperCase();
-  };
-
-  return (
-    <div className="flex items-start gap-4 p-4 rounded-lg border mb-3">
-      <Avatar className="h-10 w-10">
-        <AvatarImage src={avatar} alt={name} />
-        <AvatarFallback>{getInitials(name)}</AvatarFallback>
-      </Avatar>
-      <div className="flex-1 space-y-1">
-        <div className="flex items-center justify-between">
-          <p className="font-medium">{name}</p>
-          <Badge className={cn("capitalize", getStatusColor(status))}>
-            {status}
-          </Badge>
-        </div>
-        <p className="text-sm text-muted-foreground">{department}</p>
-        <div className="text-sm mt-1 flex items-center gap-2">
-          <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-          <span>{startDate} - {endDate}</span>
-        </div>
-        <p className="text-sm mt-1">{reason}</p>
-      </div>
-    </div>
-  );
-};
+const leaveRequestsData: LeaveRequestData[] = [
+  {
+    id: 'EMP101',
+    employeeName: 'John Doe',
+    department: 'Sales',
+    leaveType: 'Annual Leave',
+    startDate: 'Jun 15, 2023',
+    endDate: 'Jun 18, 2023',
+    leaveBalance: '15 days',
+    reason: 'Family vacation'
+  },
+  {
+    id: 'EMP102',
+    employeeName: 'Jane Smith',
+    department: 'Marketing',
+    leaveType: 'Sick Leave',
+    startDate: 'Jun 20, 2023',
+    endDate: 'Jun 21, 2023',
+    leaveBalance: '8 days',
+    reason: 'Medical appointment'
+  },
+  {
+    id: 'EMP103',
+    employeeName: 'Michael Brown',
+    department: 'Engineering',
+    leaveType: 'Emergency Leave',
+    startDate: 'Jun 25, 2023',
+    endDate: 'Jun 30, 2023',
+    leaveBalance: '5 days',
+    reason: 'Personal emergency'
+  }
+];
 
 const HRDashboard: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('leave');
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
@@ -155,7 +152,7 @@ const HRDashboard: React.FC = () => {
         />
       </div>
       
-      <Tabs defaultValue="leave">
+      <Tabs defaultValue="leave" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full max-w-md grid-cols-3 mb-4">
           <TabsTrigger value="leave">Leave Requests</TabsTrigger>
           <TabsTrigger value="expenses">Expenses</TabsTrigger>
@@ -163,73 +160,80 @@ const HRDashboard: React.FC = () => {
         </TabsList>
         
         <TabsContent value="leave" className="animate-slide-up">
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Pending Leave Requests</CardTitle>
-                <CardDescription>Approve or decline employee leave requests</CardDescription>
-              </CardHeader>
-              <CardContent className="max-h-[500px] overflow-auto">
-                <LeaveRequest 
-                  name="Michael Chen"
-                  department="Engineering"
-                  startDate="Jun 10, 2023"
-                  endDate="Jun 15, 2023"
-                  reason="Annual family vacation"
-                  status="pending"
-                />
-                <LeaveRequest 
-                  name="Isabella Martinez"
-                  department="Marketing"
-                  startDate="Jul 3, 2023"
-                  endDate="Jul 7, 2023"
-                  reason="Personal leave for medical appointment"
-                  status="pending"
-                />
-                <LeaveRequest 
-                  name="Robert Johnson"
-                  department="Finance"
-                  startDate="Jun 24, 2023"
-                  endDate="Jun 30, 2023"
-                  reason="Paternity leave"
-                  status="pending"
-                />
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Leave Requests</CardTitle>
-                <CardDescription>Previously approved or rejected requests</CardDescription>
-              </CardHeader>
-              <CardContent className="max-h-[500px] overflow-auto">
-                <LeaveRequest 
-                  name="Sophie Davis"
-                  department="Customer Support"
-                  startDate="May 15, 2023"
-                  endDate="May 20, 2023"
-                  reason="Planned vacation with family"
-                  status="approved"
-                />
-                <LeaveRequest 
-                  name="Daniel Wilson"
-                  department="HR"
-                  startDate="May 25, 2023"
-                  endDate="May 26, 2023"
-                  reason="Personal day off"
-                  status="approved"
-                />
-                <LeaveRequest 
-                  name="Emma Taylor"
-                  department="Sales"
-                  startDate="Jun 2, 2023"
-                  endDate="Jun 5, 2023"
-                  reason="Wedding anniversary"
-                  status="rejected"
-                />
-              </CardContent>
-            </Card>
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Request Details</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div className="grid grid-cols-4 gap-2">
+                  <Button variant="outline" className={cn(
+                    "flex items-center justify-center gap-2 rounded-md py-6",
+                    activeTab === "leave" && "bg-blue-50 text-blue-600 border-blue-200"
+                  )}>
+                    <Calendar className="h-5 w-5" />
+                    <span>Leave Requests</span>
+                  </Button>
+                  <Button variant="outline" className="flex items-center justify-center gap-2 rounded-md py-6">
+                    <UserCircle className="h-5 w-5" />
+                    <span>Profile Updates</span>
+                  </Button>
+                  <Button variant="outline" className="flex items-center justify-center gap-2 rounded-md py-6">
+                    <PiggyBank className="h-5 w-5" />
+                    <span>Expense Requests</span>
+                  </Button>
+                  <Button variant="outline" className="flex items-center justify-center gap-2 rounded-md py-6">
+                    <FileText className="h-5 w-5" />
+                    <span>Advance Requests</span>
+                  </Button>
+                </div>
+                
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="w-[120px]">Employee ID</TableHead>
+                      <TableHead className="w-[150px]">Employee Name</TableHead>
+                      <TableHead>Department</TableHead>
+                      <TableHead>Type of Leave</TableHead>
+                      <TableHead>Start Date</TableHead>
+                      <TableHead>End Date</TableHead>
+                      <TableHead>Leave Balance</TableHead>
+                      <TableHead>Reason</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {leaveRequestsData.map((request) => (
+                      <TableRow key={request.id}>
+                        <TableCell className="font-medium">{request.id}</TableCell>
+                        <TableCell>{request.employeeName}</TableCell>
+                        <TableCell>{request.department}</TableCell>
+                        <TableCell>{request.leaveType}</TableCell>
+                        <TableCell>{request.startDate}</TableCell>
+                        <TableCell>{request.endDate}</TableCell>
+                        <TableCell>{request.leaveBalance}</TableCell>
+                        <TableCell>{request.reason}</TableCell>
+                        <TableCell>
+                          <div className="flex space-x-2">
+                            <Button variant="outline" size="icon" className="h-8 w-8 rounded-full border-green-500 text-green-500">
+                              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
+                              </svg>
+                            </Button>
+                            <Button variant="outline" size="icon" className="h-8 w-8 rounded-full border-red-500 text-red-500">
+                              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
+                              </svg>
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
         
         <TabsContent value="expenses" className="animate-slide-up">

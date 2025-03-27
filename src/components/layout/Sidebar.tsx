@@ -11,7 +11,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { 
   BarChart4, Users, Calendar, FileText, UserCog, 
   CheckSquare, Briefcase, Receipt, Bell, Settings, 
-  CreditCard, Clock, ChevronLeft, ChevronRight 
+  CreditCard, Clock, ChevronLeft, ChevronRight,
+  ClipboardList
 } from 'lucide-react';
 
 const navigation: NavigationItem[] = [
@@ -21,7 +22,7 @@ const navigation: NavigationItem[] = [
   { name: 'Expenses', href: '/dashboard/expenses', icon: CreditCard, roles: ['employee'] },
   { name: 'Reports', href: '/dashboard/reports', icon: FileText, roles: ['manager'] },
   { name: 'User Management', href: '/dashboard/users', icon: UserCog, roles: [] },
-  { name: 'Tasks', href: '/dashboard/tasks', icon: CheckSquare, roles: ['manager', 'employee'] },
+  { name: 'Tasks', href: '/dashboard/tasks', icon: ClipboardList, roles: ['manager', 'employee'] },
   { name: 'Team', href: '/dashboard/team', icon: Briefcase, roles: ['manager'] },
   { name: 'Attendance', href: '/dashboard/attendance', icon: Clock, roles: ['hr', 'manager', 'employee'] },
   { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt, roles: ['hr', 'employee'] },
