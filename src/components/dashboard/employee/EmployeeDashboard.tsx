@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -41,13 +43,17 @@ interface QuickActionProps {
   title: string;
   icon: React.ReactNode;
   color: string;
+  onClick?: () => void;
 }
 
 const QuickAction: React.FC<QuickActionProps> = ({
-  title, icon, color
+  title, icon, color, onClick
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center text-center p-2">
+    <div 
+      className="flex flex-col items-center justify-center text-center p-2 cursor-pointer hover:bg-gray-50 rounded-md transition-colors"
+      onClick={onClick}
+    >
       <div className={cn("rounded-full p-1.5", color)}>
         {icon}
       </div>
@@ -87,6 +93,7 @@ const Update: React.FC<UpdateProps> = ({
 };
 
 const EmployeeDashboard: React.FC = () => {
+  const navigate = useNavigate();
   const today = new Date();
   const dateOptions: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
   const formattedDate = today.toLocaleDateString('en-US', dateOptions);
@@ -143,16 +150,19 @@ const EmployeeDashboard: React.FC = () => {
                 title="Apply Leave" 
                 icon={<Calendar className="h-4 w-4 text-blue-600" />}
                 color="text-blue-600"
+                onClick={() => navigate('/dashboard/leave')}
               />
               <QuickAction 
                 title="Submit Expense" 
                 icon={<FileText className="h-4 w-4 text-blue-600" />} 
                 color="text-blue-600"
+                onClick={() => navigate('/dashboard/expenses')}
               />
               <QuickAction 
                 title="Leaves Management" 
                 icon={<Calendar className="h-4 w-4 text-green-500" />} 
                 color="text-green-500"
+                onClick={() => navigate('/dashboard/leave')}
               />
             </div>
           </CardContent>

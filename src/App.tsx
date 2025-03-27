@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import EmployeesPage from "./pages/EmployeesPage";
 import AttendancePage from "./pages/AttendancePage";
+import LeaveManagementPage from "./pages/LeaveManagementPage";
 import MainLayout from "./components/layout/MainLayout";
 import NotFound from "./pages/NotFound";
 
@@ -30,7 +31,7 @@ const App = () => (
               <Route index element={<Dashboard />} />
               <Route path="employees" element={<EmployeesPage />} />
               <Route path="attendance" element={<AttendancePage />} />
-              <Route path="leave" element={<Dashboard />} />
+              <Route path="leave" element={<LeaveManagementPage />} />
               <Route path="expenses" element={<Dashboard />} />
               <Route path="reports" element={<Dashboard />} />
               <Route path="users" element={<Dashboard />} />
