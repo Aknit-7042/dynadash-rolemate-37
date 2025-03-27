@@ -4,13 +4,12 @@ import { useAuth } from '@/context/AuthContext';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { 
   Bell, 
-  LayoutDashboard, 
   Users, 
   Calendar, 
   Receipt, 
   CheckSquare, 
-  Settings, 
-  UserCog 
+  Settings,
+  User
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -20,12 +19,10 @@ import { cn } from '@/lib/utils';
 import { useRole } from '@/context/RoleContext';
 
 const navigationItems = [
-  { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Employees', href: '/dashboard/employees', icon: Users },
   { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
   { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
   { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ];
 
 const Navbar: React.FC = () => {
@@ -70,16 +67,6 @@ const Navbar: React.FC = () => {
               <span>{item.name}</span>
             </NavLink>
           ))}
-          <NavLink
-            to="/admin"
-            className={({ isActive }) => cn(
-              'flex items-center gap-2 text-neutral-600 hover:text-blue-500 transition-colors',
-              isActive && 'font-medium text-blue-500'
-            )}
-          >
-            <UserCog className="h-5 w-5" />
-            <span>HR Admin Login</span>
-          </NavLink>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -105,8 +92,14 @@ const Navbar: React.FC = () => {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" />
+                <span>My Profile</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout} className="text-destructive">Log out</DropdownMenuItem>
             </DropdownMenuContent>
