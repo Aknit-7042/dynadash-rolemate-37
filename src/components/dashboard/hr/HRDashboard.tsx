@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -108,11 +109,13 @@ const HRDashboard: React.FC = () => {
   
   const handleOpenRequestsClick = () => {
     setShowRequestDetails(true);
+    setShowAttendanceCharts(false);
     setActiveTab('leave');
   };
 
   const handleAttendanceClick = () => {
     setShowAttendanceCharts(true);
+    setShowRequestDetails(false);
   };
 
   return <div className="space-y-6 animate-fade-in">
@@ -164,14 +167,17 @@ const HRDashboard: React.FC = () => {
         />
       </div>
       
-      <Dialog open={showAttendanceCharts} onOpenChange={setShowAttendanceCharts}>
-        <DialogContent className="max-w-5xl">
-          <DialogHeader>
-            <DialogTitle className="text-xl">Attendance Analytics</DialogTitle>
-          </DialogHeader>
-          <AttendanceCharts />
-        </DialogContent>
-      </Dialog>
+      {showAttendanceCharts && (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle>Attendance Analytics</CardTitle>
+            <CardDescription>Overview of employee attendance patterns</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <AttendanceCharts />
+          </CardContent>
+        </Card>
+      )}
       
       <Tabs defaultValue="leave" value={activeTab} onValueChange={setActiveTab}>
         
