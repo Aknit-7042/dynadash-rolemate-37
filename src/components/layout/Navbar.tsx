@@ -10,7 +10,8 @@ import {
   Settings,
   User,
   FileText,
-  DollarSign
+  DollarSign,
+  Users
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -18,14 +19,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import RoleSwitcher from './RoleSwitcher';
 import { cn } from '@/lib/utils';
 import { useRole } from '@/context/RoleContext';
-
-const navigationItems = [
-  { name: 'Leaves Management', href: '/dashboard/leave', icon: Calendar },
-  { name: 'Expense Management', href: '/dashboard/expenses', icon: FileText },
-  { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
-  { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
-  { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
-];
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
@@ -46,6 +39,25 @@ const Navbar: React.FC = () => {
       .join('')
       .toUpperCase();
   };
+
+  // Navigation items for HR role
+  const hrNavigationItems = [
+    { name: 'Employees', href: '/dashboard/employees', icon: Users },
+    { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
+    { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
+  ];
+
+  // Navigation items for other roles
+  const standardNavigationItems = [
+    { name: 'Leaves Management', href: '/dashboard/leave', icon: Calendar },
+    { name: 'Expense Management', href: '/dashboard/expenses', icon: FileText },
+    { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
+    { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
+    { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
+  ];
+
+  // Select navigation items based on current role
+  const navigationItems = currentRole === 'hr' ? hrNavigationItems : standardNavigationItems;
 
   return (
     <header className="h-16 border-b bg-white shadow-sm sticky top-0 z-30">
