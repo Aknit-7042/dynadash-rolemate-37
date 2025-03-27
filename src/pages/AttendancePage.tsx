@@ -1,8 +1,7 @@
 
-import React, { useState } from 'react';
-import { Check, X, Calendar, Search } from 'lucide-react';
+import React from 'react';
+import { Check, X } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
 import {
   Table,
   TableHeader,
@@ -13,8 +12,6 @@ import {
 } from '@/components/ui/table';
 
 const AttendancePage = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  
   // Sample data for attendance records
   const attendanceData = [
     {
@@ -99,14 +96,6 @@ const AttendancePage = () => {
     { day: '14', weekday: 'Sun' }
   ];
 
-  // Filter employees based on search query
-  const filteredData = attendanceData.filter(
-    employee => 
-      employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      employee.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      employee.department.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   // Render attendance cell based on attendance status
   const renderAttendanceCell = (status: boolean | string) => {
     if (status === 'half-day') {
@@ -133,18 +122,6 @@ const AttendancePage = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2">
-        <div className="relative w-full max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search..." 
-            className="pl-9"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} 
-          />
-        </div>
-      </div>
-
       <Tabs defaultValue="attendance">
         <TabsList className="mb-4">
           <TabsTrigger value="attendance" className="text-blue-500">
@@ -189,7 +166,7 @@ const AttendancePage = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredData.map((employee, idx) => (
+                  {attendanceData.map((employee, idx) => (
                     <TableRow key={idx}>
                       <TableCell>{employee.id}</TableCell>
                       <TableCell>{employee.name}</TableCell>

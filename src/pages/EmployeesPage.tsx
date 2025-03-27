@@ -1,9 +1,8 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useRole } from '@/context/RoleContext';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Table, 
@@ -13,7 +12,7 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table';
-import { Search, UserPlus } from 'lucide-react';
+import { UserPlus } from 'lucide-react';
 
 interface Employee {
   id: string;
@@ -91,14 +90,6 @@ const employeesData: Employee[] = [
 
 const EmployeesPage: React.FC = () => {
   const { currentRole } = useRole();
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const filteredEmployees = employeesData.filter(employee => 
-    employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    employee.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    employee.department.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    employee.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   if (currentRole !== 'hr') {
     return (
@@ -118,22 +109,11 @@ const EmployeesPage: React.FC = () => {
         <Badge className="bg-hr text-hr-foreground text-sm py-1 px-3">HR Role</Badge>
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-between gap-4">
-        <Button className="bg-blue-600 hover:bg-blue-700 text-white self-start">
+      <div className="flex justify-end">
+        <Button className="bg-blue-600 hover:bg-blue-700 text-white">
           <UserPlus className="mr-2 h-4 w-4" />
           Add Employee
         </Button>
-        
-        <div className="relative max-w-sm lg:max-w-md w-full">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search..."
-            className="pl-8"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
       </div>
 
       <div className="bg-white rounded-lg border shadow-sm">
@@ -186,8 +166,8 @@ const EmployeesPage: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredEmployees.length > 0 ? (
-                    filteredEmployees.map((employee) => (
+                  {employeesData.length > 0 ? (
+                    employeesData.map((employee) => (
                       <TableRow key={employee.id} className="hover:bg-gray-50">
                         <TableCell className="font-medium">{employee.name}</TableCell>
                         <TableCell>{employee.email}</TableCell>
