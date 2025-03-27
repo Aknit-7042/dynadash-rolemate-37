@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -138,7 +138,7 @@ const EmployeeDashboard: React.FC = () => {
             <CardTitle className="text-md">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="p-3">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <QuickAction 
                 title="Apply Leave" 
                 icon={<Calendar className="h-4 w-4 text-blue-600" />}
