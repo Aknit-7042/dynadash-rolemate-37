@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,7 +8,8 @@ import {
   Calendar, Clock, CreditCard, 
   FileText, MessageSquare, CheckCircle2, 
   LucideIcon, PieChart, Users, Bell,
-  CheckSquare, AlertTriangle, ArrowUpRight, User
+  CheckSquare, AlertTriangle, ArrowUpRight, User,
+  DollarSign
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -150,8 +150,8 @@ const EmployeeDashboard: React.FC = () => {
                 color="text-blue-600"
               />
               <QuickAction 
-                title="Profile Updates" 
-                icon={<User className="h-4 w-4 text-green-500" />} 
+                title="Leaves Management" 
+                icon={<Calendar className="h-4 w-4 text-green-500" />} 
                 color="text-green-500"
               />
             </div>

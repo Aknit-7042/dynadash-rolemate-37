@@ -4,12 +4,13 @@ import { useAuth } from '@/context/AuthContext';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { 
   Bell, 
-  Users, 
   Calendar, 
   Receipt, 
   CheckSquare, 
   Settings,
-  User
+  User,
+  FileText,
+  DollarSign
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -19,7 +20,8 @@ import { cn } from '@/lib/utils';
 import { useRole } from '@/context/RoleContext';
 
 const navigationItems = [
-  { name: 'Employees', href: '/dashboard/employees', icon: Users },
+  { name: 'Leaves Management', href: '/dashboard/leave', icon: Calendar },
+  { name: 'Expense Management', href: '/dashboard/expenses', icon: FileText },
   { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
   { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
   { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
