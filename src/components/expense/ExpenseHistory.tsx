@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { file } from 'lucide-react';
+import { File } from 'lucide-react';
 import ExpenseDetails from './ExpenseDetails';
 
 // Mock data for expense history
@@ -59,42 +59,34 @@ const ExpenseHistory: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold">Expense History</h2>
-      
+    <div className="space-y-4">      
       {mockExpenses.length === 0 ? (
         <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
+          <CardContent className="flex flex-col items-center justify-center py-6">
             <div className="rounded-full bg-gray-100 p-3 mb-4">
-              <file className="h-8 w-8 text-gray-400" />
+              <File className="h-6 w-6 text-gray-400" />
             </div>
             <h3 className="text-lg font-medium mb-1">No expenses found</h3>
             <p className="text-sm text-gray-500">You haven't submitted any expenses yet.</p>
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {mockExpenses.map((expense) => (
-            <Card key={expense.id} className="hover:shadow-md transition-shadow">
-              <CardContent className="p-0">
-                <div className="p-4 flex items-center justify-between cursor-pointer" onClick={() => handleViewExpense(expense)}>
-                  <div className="flex items-center space-x-4">
-                    <div className="rounded-full bg-gray-100 p-2">
-                      <file className="h-6 w-6 text-gray-500" />
+            <Card key={expense.id} className="hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => handleViewExpense(expense)}>
+              <CardContent className="p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="rounded-full bg-gray-100 p-2 flex-shrink-0">
+                      <File className="h-5 w-5 text-gray-500" />
                     </div>
                     <div>
                       <p className="font-medium">{expense.category}</p>
-                      <p className="text-sm text-gray-500">{expense.date} • ₹{expense.amount.toLocaleString()}</p>
+                      <p className="text-xs text-gray-500">{expense.date} • ₹{expense.amount.toLocaleString()}</p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3">
+                  <div>
                     {getStatusBadge(expense.status)}
-                    <Button variant="ghost" size="sm" onClick={(e) => {
-                      e.stopPropagation();
-                      handleViewExpense(expense);
-                    }}>
-                      View
-                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -104,7 +96,7 @@ const ExpenseHistory: React.FC = () => {
       )}
 
       <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Expense Details</DialogTitle>
           </DialogHeader>

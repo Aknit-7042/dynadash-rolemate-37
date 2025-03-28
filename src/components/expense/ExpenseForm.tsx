@@ -13,7 +13,7 @@ import {
   SelectValue 
 } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { upload } from 'lucide-react';
+import { Upload } from 'lucide-react';
 
 const ExpenseForm: React.FC = () => {
   const [amount, setAmount] = useState<string>('0.00');
@@ -87,11 +87,9 @@ const ExpenseForm: React.FC = () => {
   };
 
   return (
-    <Card className="max-w-2xl mx-auto">
+    <Card>
       <CardContent className="pt-6">
         <form onSubmit={handleSubmit}>
-          <h2 className="text-2xl font-bold mb-6">Submit New Expense</h2>
-          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="space-y-2">
               <Label htmlFor="amount">Amount (₹)</Label>
@@ -130,7 +128,7 @@ const ExpenseForm: React.FC = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Provide details about the expense"
-              rows={4}
+              rows={3}
             />
           </div>
           
@@ -146,11 +144,11 @@ const ExpenseForm: React.FC = () => {
             
             {!receiptPreview ? (
               <div 
-                className="border-2 border-dashed rounded-md p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors"
+                className="border-2 border-dashed rounded-md p-6 text-center cursor-pointer hover:bg-gray-50 transition-colors"
                 onClick={handleUploadClick}
               >
                 <div className="flex flex-col items-center">
-                  <upload className="h-10 w-10 text-gray-400 mb-2" />
+                  <Upload className="h-8 w-8 text-gray-400 mb-2" />
                   <p className="text-gray-500">Click to upload receipt</p>
                   <p className="text-xs text-gray-400 mt-1">JPG, PNG, or PDF</p>
                 </div>
@@ -186,7 +184,7 @@ const ExpenseForm: React.FC = () => {
             )}
           </div>
           
-          <Button type="submit" className="w-full py-6 text-lg">
+          <Button type="submit" className="w-full">
             Submit Expense
           </Button>
         </form>
