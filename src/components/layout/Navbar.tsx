@@ -62,8 +62,15 @@ const Navbar: React.FC = () => {
     { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
   ];
 
-  // Navigation items for other roles
-  const standardNavigationItems = [
+  // Navigation items for manager role - removed Leaves, Expenses, Payroll and moved My Task next to Dashboard
+  const managerNavigationItems = [
+    { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
+    { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
+    { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
+  ];
+
+  // Navigation items for employee role
+  const employeeNavigationItems = [
     { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
     { name: 'Leaves', href: '/dashboard/leave', icon: Calendar },
     { name: 'Expenses', href: '/dashboard/expenses', icon: FileText },
@@ -73,7 +80,14 @@ const Navbar: React.FC = () => {
   ];
 
   // Select navigation items based on current role
-  const navigationItems = currentRole === 'hr' ? hrNavigationItems : standardNavigationItems;
+  let navigationItems;
+  if (currentRole === 'hr') {
+    navigationItems = hrNavigationItems;
+  } else if (currentRole === 'manager') {
+    navigationItems = managerNavigationItems;
+  } else {
+    navigationItems = employeeNavigationItems;
+  }
 
   return (
     <header className="h-16 border-b bg-white shadow-sm sticky top-0 z-30">
