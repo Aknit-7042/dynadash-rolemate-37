@@ -28,10 +28,10 @@ const DashboardLayout: React.FC = () => {
 
   return (
     <RoleProvider>
-      <div className="min-h-screen flex w-full">
-        <Sidebar />
-        <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-          <Navbar />
+      <div className="min-h-screen flex flex-col w-full">
+        <Navbar />
+        <div className="flex-1 flex overflow-hidden">
+          <Sidebar />
           <div className="flex-1 overflow-auto bg-muted/30">
             <div className="container py-6 max-w-7xl">
               <Outlet />

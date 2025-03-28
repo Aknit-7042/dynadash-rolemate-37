@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
     <header className="h-16 border-b bg-white shadow-sm top-0 z-30 w-full">
       <div className="h-full flex items-center justify-between px-6">
         <div className="flex items-center gap-4">
-          <h1 className="text-xl font-bold">MEdhir</h1>
+          <h1 className="text-xl font-bold">Medhir</h1>
           
           <div className="flex items-center gap-2">
             {user.roles.map(role => (
