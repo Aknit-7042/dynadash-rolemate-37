@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -10,6 +11,7 @@ import { BarChart, Calendar, Clock, CreditCard, DollarSign, Users, ArrowUpRight,
 import { cn } from '@/lib/utils';
 import AttendanceCharts from './AttendanceCharts';
 import AttendanceTracker from './AttendanceTracker';
+
 interface StatCardProps {
   title: string;
   value: string;
@@ -21,6 +23,7 @@ interface StatCardProps {
   onClick?: () => void;
   isActive?: boolean;
 }
+
 const StatCard: React.FC<StatCardProps> = ({
   title,
   value,
@@ -52,6 +55,7 @@ const StatCard: React.FC<StatCardProps> = ({
       </CardContent>
     </Card>;
 };
+
 interface LeaveRequestData {
   id: string;
   employeeName: string;
@@ -62,6 +66,7 @@ interface LeaveRequestData {
   leaveBalance: string;
   reason: string;
 }
+
 const leaveRequestsData: LeaveRequestData[] = [{
   id: 'EMP101',
   employeeName: 'John Doe',
@@ -90,27 +95,32 @@ const leaveRequestsData: LeaveRequestData[] = [{
   leaveBalance: '5 days',
   reason: 'Personal emergency'
 }];
+
 const HRDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('leave');
   const [showRequestDetails, setShowRequestDetails] = useState(false);
   const [showAttendanceCharts, setShowAttendanceCharts] = useState(false);
   const [showAttendanceTracker, setShowAttendanceTracker] = useState(false);
+
   const handleOpenRequestsClick = () => {
     setShowRequestDetails(true);
     setShowAttendanceCharts(false);
     setShowAttendanceTracker(false);
     setActiveTab('leave');
   };
+
   const handleAttendanceClick = () => {
     setShowAttendanceTracker(true);
     setShowAttendanceCharts(false);
     setShowRequestDetails(false);
   };
+
   const handleAttendanceChartsClick = () => {
     setShowAttendanceCharts(true);
     setShowAttendanceTracker(false);
     setShowRequestDetails(false);
   };
+
   return <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">HR Dashboard</h1>
@@ -135,8 +145,13 @@ const HRDashboard: React.FC = () => {
         </Card>}
 
       {showAttendanceTracker && <Card className="mt-6">
-          
-          
+          <CardHeader>
+            <CardTitle>Attendance Records</CardTitle>
+            <CardDescription>Track and manage employee attendance</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <AttendanceTracker />
+          </CardContent>
         </Card>}
       
       <Tabs defaultValue="leave" value={activeTab} onValueChange={setActiveTab}>
@@ -288,4 +303,5 @@ const HRDashboard: React.FC = () => {
       </Tabs>
     </div>;
 };
+
 export default HRDashboard;

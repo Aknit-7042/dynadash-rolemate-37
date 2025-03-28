@@ -3,12 +3,90 @@ import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Calendar, Search } from 'lucide-react';
+import { Calendar, Search, CheckCircle2, X, Circle } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+// Sample attendance data
+const attendanceData = [
+  {
+    id: 'MED001',
+    name: 'Arun',
+    department: 'SALES',
+    target: '18/20',
+    attendance: [
+      null, null, true, true, true, false, true, null, null, true, true, true, true, false
+    ]
+  },
+  {
+    id: 'MED002',
+    name: 'Naman',
+    department: 'Design',
+    target: '18/20',
+    attendance: [
+      null, null, true, false, true, true, true, null, null, true, true, true, true, false
+    ]
+  },
+  {
+    id: 'MED003',
+    name: 'Amit',
+    department: 'Marketing',
+    target: '18/20',
+    attendance: [
+      null, null, true, true, true, false, true, null, null, true, true, false, true, true
+    ]
+  },
+  {
+    id: 'MED004',
+    name: 'Mahesh',
+    department: 'SALES',
+    target: '18/20',
+    attendance: [
+      null, null, false, true, true, true, true, null, null, true, true, true, false, true
+    ]
+  },
+  {
+    id: 'MED005',
+    name: 'Rohit',
+    department: 'HR',
+    target: '18/20',
+    attendance: [
+      null, null, true, true, true, true, false, null, null, true, true, true, true, false
+    ]
+  },
+  {
+    id: 'MED006',
+    name: 'Suresh',
+    department: 'IT',
+    target: '18/20',
+    attendance: [
+      null, null, true, true, false, true, true, null, null, { special: true }, true, true, true, true
+    ]
+  }
+];
 
 const AttendanceTracker: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>('attendance');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedMonth, setSelectedMonth] = useState<string>('January 2023');
+  
+  const renderAttendanceStatus = (status: boolean | null | { special: boolean }) => {
+    if (status === null) {
+      return <div className="flex justify-center"><Circle className="h-5 w-5 text-gray-300" /></div>;
+    } else if (status === true) {
+      return <div className="flex justify-center"><CheckCircle2 className="h-5 w-5 text-green-500" /></div>;
+    } else if (status === false) {
+      return <div className="flex justify-center"><X className="h-5 w-5 text-red-500" /></div>;
+    } else if (typeof status === 'object' && status.special) {
+      return <div className="flex justify-center"><div className="h-5 w-5 rounded-full bg-purple-500"></div></div>;
+    }
+    return null;
+  };
+
+  const filteredData = attendanceData.filter(employee => 
+    employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    employee.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    employee.department.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   
   return (
     <div className="space-y-4">
@@ -47,11 +125,45 @@ const AttendanceTracker: React.FC = () => {
 
         <TabsContent value="attendance" className="pt-4">
           <div className="border rounded-lg bg-white overflow-x-auto">
-            <img 
-              src="/lovable-uploads/a7daf462-c3e4-44f8-bbbd-118d7b129a58.png" 
-              alt="Attendance Tracker" 
-              className="w-full"
-            />
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-50 text-left">
+                  <th className="px-4 py-3 text-sm font-medium text-gray-600">Employee ID</th>
+                  <th className="px-4 py-3 text-sm font-medium text-gray-600">Name</th>
+                  <th className="px-4 py-3 text-sm font-medium text-gray-600">Department</th>
+                  <th className="px-4 py-3 text-sm font-medium text-gray-600">P / T.W.D</th>
+                  
+                  {/* January dates */}
+                  {Array.from({ length: 14 }, (_, i) => i + 1).map(day => (
+                    <th key={day} className="px-2 py-3 text-center">
+                      <div className="text-sm font-medium text-gray-600">
+                        Jan<br />{day.toString().padStart(2, '0')}
+                      </div>
+                      <div className="text-xs text-gray-500 capitalize">
+                        {new Date(2023, 0, day).toLocaleDateString('en-US', { weekday: 'short' })}
+                      </div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredData.map((employee) => (
+                  <tr key={employee.id} className="border-t hover:bg-gray-50">
+                    <td className="px-4 py-3 text-sm">{employee.id}</td>
+                    <td className="px-4 py-3 text-sm font-medium">{employee.name}</td>
+                    <td className="px-4 py-3 text-sm">{employee.department}</td>
+                    <td className="px-4 py-3 text-sm">{employee.target}</td>
+                    
+                    {/* Attendance status for each day */}
+                    {employee.attendance.map((status, index) => (
+                      <td key={index} className="px-2 py-3 text-center">
+                        {renderAttendanceStatus(status)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </TabsContent>
 
