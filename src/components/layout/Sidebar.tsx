@@ -8,7 +8,6 @@ import { NavigationItem, Role } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import TopNavSection from './TopNavSection';
 import { 
   BarChart4, Users, Calendar, FileText, UserCog, 
   CheckSquare, Briefcase, Receipt, Bell, Settings, 
@@ -71,12 +70,6 @@ const Sidebar: React.FC = () => {
           {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
       </div>
-      
-      {!collapsed && (
-        <div className="border-b">
-          <TopNavSection />
-        </div>
-      )}
 
       <ScrollArea className="flex-1">
         <div className="px-2 py-4">
