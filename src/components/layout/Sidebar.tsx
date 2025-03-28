@@ -21,12 +21,12 @@ const navigation: NavigationItem[] = [
   { name: 'Leaves', href: '/dashboard/leave', icon: Calendar, roles: ['employee'] },
   { name: 'Expenses', href: '/dashboard/expenses', icon: CreditCard, roles: ['employee'] },
   { name: 'Reports', href: '/dashboard/reports', icon: FileText, roles: ['hr'] },
-  { name: 'Tasks', href: '/dashboard/tasks', icon: ClipboardList, roles: ['employee'] },
+  { name: 'Tasks', href: '/dashboard/tasks', icon: ClipboardList, roles: [] }, // Removed 'employee'
   { name: 'Team', href: '/dashboard/team', icon: Briefcase, roles: ['manager'] },
   { name: 'Attendance', href: '/dashboard/attendance', icon: Clock, roles: ['hr', 'manager', 'employee'] },
   { name: 'Payslip', href: '/dashboard/payroll', icon: Receipt, roles: ['hr', 'employee'] },
-  { name: 'Updates', href: '/dashboard/updates', icon: Bell, roles: ['employee'] },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings, roles: ['employee'] },
+  { name: 'Updates', href: '/dashboard/updates', icon: Bell, roles: [] }, // Removed 'employee'
+  { name: 'Settings', href: '/dashboard/settings', icon: Settings, roles: [] }, // Removed 'employee'
 ];
 
 const Sidebar: React.FC = () => {
