@@ -22,6 +22,7 @@ import { cn } from '@/lib/utils';
 import { useRole } from '@/context/RoleContext';
 import { Badge } from '@/components/ui/badge';
 import { Role } from '@/lib/types';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const roleLabels = {
   hr: 'HR',
@@ -59,7 +60,16 @@ const Navbar: React.FC = () => {
   const hrNavigationItems = [
     { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
     { name: 'Employees', href: '/dashboard/employees', icon: Users },
-    { name: 'Attendance', href: '/dashboard/attendance', icon: Clock },
+    { 
+      name: 'Attendance', 
+      href: '/dashboard/attendance', 
+      icon: Clock,
+      badge: {
+        text: '93.8%',
+        tooltip: 'Average monthly attendance rate',
+        className: 'bg-green-100 text-green-800'
+      }
+    },
     { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
   ];
 
@@ -118,17 +128,32 @@ const Navbar: React.FC = () => {
 
         <nav className="hidden md:flex items-center gap-6">
           {navigationItems.map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.href}
-              className={({ isActive }) => cn(
-                'flex items-center gap-2 text-neutral-600 hover:text-blue-500 transition-colors',
-                isActive && 'font-medium text-blue-500'
-              )}
-            >
-              <item.icon className="h-5 w-5" />
-              <span>{item.name}</span>
-            </NavLink>
+            <TooltipProvider key={item.name} delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <NavLink
+                    to={item.href}
+                    className={({ isActive }) => cn(
+                      'flex items-center gap-2 text-neutral-600 hover:text-blue-500 transition-colors',
+                      isActive && 'font-medium text-blue-500'
+                    )}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    <span>{item.name}</span>
+                    {item.badge && (
+                      <Badge className={cn("ml-1 text-xs py-0 px-1.5", item.badge.className)}>
+                        {item.badge.text}
+                      </Badge>
+                    )}
+                  </NavLink>
+                </TooltipTrigger>
+                {item.badge?.tooltip && (
+                  <TooltipContent>
+                    <p>{item.badge.tooltip}</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
           ))}
         </nav>
 
