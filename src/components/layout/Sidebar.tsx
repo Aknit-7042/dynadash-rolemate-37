@@ -72,6 +72,21 @@ const Sidebar: React.FC = () => {
         </Button>
       </div>
       
+      {/* Additional toggle button above dashboard area */}
+      <Button
+        variant="ghost"
+        size="sm"
+        className="my-2 mx-auto flex items-center justify-center"
+        onClick={toggleSidebar}
+        aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+      >
+        {collapsed ? (
+          <ChevronRight className="h-5 w-5 text-primary" />
+        ) : (
+          <ChevronLeft className="h-5 w-5 text-primary" />
+        )}
+      </Button>
+      
       <ScrollArea className="flex-1">
         <div className="px-2 py-4">
           <TooltipProvider delayDuration={0}>
