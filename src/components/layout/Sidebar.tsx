@@ -8,11 +8,13 @@ import { NavigationItem, Role } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import RoleSwitcher from './RoleSwitcher';
+import TopNavSection from './TopNavSection';
 import { 
   BarChart4, Users, Calendar, FileText, UserCog, 
   CheckSquare, Briefcase, Receipt, Bell, Settings, 
   CreditCard, Clock, ChevronLeft, ChevronRight,
-  ClipboardList
+  ClipboardList, Menu
 } from 'lucide-react';
 
 const navigation: NavigationItem[] = [
@@ -21,7 +23,6 @@ const navigation: NavigationItem[] = [
   { name: 'Leave Management', href: '/dashboard/leave', icon: Calendar, roles: ['manager', 'employee'] },
   { name: 'Expenses', href: '/dashboard/expenses', icon: CreditCard, roles: ['employee'] },
   { name: 'Reports', href: '/dashboard/reports', icon: FileText, roles: ['manager'] },
-  { name: 'User Management', href: '/dashboard/users', icon: UserCog, roles: [] },
   { name: 'Tasks', href: '/dashboard/tasks', icon: ClipboardList, roles: ['manager', 'employee'] },
   { name: 'Team', href: '/dashboard/team', icon: Briefcase, roles: ['manager'] },
   { name: 'Attendance', href: '/dashboard/attendance', icon: Clock, roles: ['hr', 'manager', 'employee'] },
@@ -49,9 +50,13 @@ const Sidebar: React.FC = () => {
       )}
     >
       <div className="flex items-center justify-between p-4 border-b h-16">
-        {!collapsed && (
-          <span className="font-semibold text-lg tracking-tight animate-fade-in">
-            DynaDash
+        {!collapsed ? (
+          <span className="font-semibold text-xl tracking-tight animate-fade-in">
+            RoleMate
+          </span>
+        ) : (
+          <span className="flex justify-center w-full">
+            <Menu className="h-5 w-5" />
           </span>
         )}
         <Button 
@@ -68,6 +73,12 @@ const Sidebar: React.FC = () => {
         </Button>
       </div>
       
+      {!collapsed && (
+        <div className="border-b">
+          <TopNavSection />
+        </div>
+      )}
+
       <ScrollArea className="flex-1">
         <div className="px-2 py-4">
           <TooltipProvider delayDuration={0}>
@@ -104,6 +115,12 @@ const Sidebar: React.FC = () => {
           </TooltipProvider>
         </div>
       </ScrollArea>
+
+      {!collapsed && (
+        <div className="p-4 border-t">
+          <RoleSwitcher />
+        </div>
+      )}
     </div>
   );
 };
