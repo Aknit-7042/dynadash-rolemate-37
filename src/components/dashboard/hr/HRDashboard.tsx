@@ -10,7 +10,6 @@ import { BarChart, Calendar, Clock, CreditCard, DollarSign, Users, ArrowUpRight,
 import { cn } from '@/lib/utils';
 import AttendanceCharts from './AttendanceCharts';
 import AttendanceTracker from './AttendanceTracker';
-
 interface StatCardProps {
   title: string;
   value: string;
@@ -22,7 +21,6 @@ interface StatCardProps {
   onClick?: () => void;
   isActive?: boolean;
 }
-
 const StatCard: React.FC<StatCardProps> = ({
   title,
   value,
@@ -34,10 +32,7 @@ const StatCard: React.FC<StatCardProps> = ({
   onClick,
   isActive = false
 }) => {
-  return <Card 
-    className={cn("card-hover", onClick && "cursor-pointer", isActive && "border-blue-500 ring-1 ring-blue-500")}
-    onClick={onClick}
-  >
+  return <Card className={cn("card-hover", onClick && "cursor-pointer", isActive && "border-blue-500 ring-1 ring-blue-500")} onClick={onClick}>
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <div className="h-9 w-9 flex items-center justify-center rounded-full bg-muted">
@@ -57,7 +52,6 @@ const StatCard: React.FC<StatCardProps> = ({
       </CardContent>
     </Card>;
 };
-
 interface LeaveRequestData {
   id: string;
   employeeName: string;
@@ -68,65 +62,55 @@ interface LeaveRequestData {
   leaveBalance: string;
   reason: string;
 }
-
-const leaveRequestsData: LeaveRequestData[] = [
-  {
-    id: 'EMP101',
-    employeeName: 'John Doe',
-    department: 'Sales',
-    leaveType: 'Annual Leave',
-    startDate: 'Jun 15, 2023',
-    endDate: 'Jun 18, 2023',
-    leaveBalance: '15 days',
-    reason: 'Family vacation'
-  },
-  {
-    id: 'EMP102',
-    employeeName: 'Jane Smith',
-    department: 'Marketing',
-    leaveType: 'Sick Leave',
-    startDate: 'Jun 20, 2023',
-    endDate: 'Jun 21, 2023',
-    leaveBalance: '8 days',
-    reason: 'Medical appointment'
-  },
-  {
-    id: 'EMP103',
-    employeeName: 'Michael Brown',
-    department: 'Engineering',
-    leaveType: 'Emergency Leave',
-    startDate: 'Jun 25, 2023',
-    endDate: 'Jun 30, 2023',
-    leaveBalance: '5 days',
-    reason: 'Personal emergency'
-  }
-];
-
+const leaveRequestsData: LeaveRequestData[] = [{
+  id: 'EMP101',
+  employeeName: 'John Doe',
+  department: 'Sales',
+  leaveType: 'Annual Leave',
+  startDate: 'Jun 15, 2023',
+  endDate: 'Jun 18, 2023',
+  leaveBalance: '15 days',
+  reason: 'Family vacation'
+}, {
+  id: 'EMP102',
+  employeeName: 'Jane Smith',
+  department: 'Marketing',
+  leaveType: 'Sick Leave',
+  startDate: 'Jun 20, 2023',
+  endDate: 'Jun 21, 2023',
+  leaveBalance: '8 days',
+  reason: 'Medical appointment'
+}, {
+  id: 'EMP103',
+  employeeName: 'Michael Brown',
+  department: 'Engineering',
+  leaveType: 'Emergency Leave',
+  startDate: 'Jun 25, 2023',
+  endDate: 'Jun 30, 2023',
+  leaveBalance: '5 days',
+  reason: 'Personal emergency'
+}];
 const HRDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('leave');
   const [showRequestDetails, setShowRequestDetails] = useState(false);
   const [showAttendanceCharts, setShowAttendanceCharts] = useState(false);
   const [showAttendanceTracker, setShowAttendanceTracker] = useState(false);
-  
   const handleOpenRequestsClick = () => {
     setShowRequestDetails(true);
     setShowAttendanceCharts(false);
     setShowAttendanceTracker(false);
     setActiveTab('leave');
   };
-
   const handleAttendanceClick = () => {
     setShowAttendanceTracker(true);
     setShowAttendanceCharts(false);
     setShowRequestDetails(false);
   };
-
   const handleAttendanceChartsClick = () => {
     setShowAttendanceCharts(true);
     setShowAttendanceTracker(false);
     setShowRequestDetails(false);
   };
-
   return <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">HR Dashboard</h1>
@@ -134,50 +118,13 @@ const HRDashboard: React.FC = () => {
       </div>
       
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard 
-          title="Total Employees" 
-          value="248" 
-          description="Active employees in the organization" 
-          icon={<Users className="h-5 w-5" />} 
-          trend="from last month" 
-          trendValue="+12" 
-          trendDirection="up" 
-        />
-        <StatCard 
-          title="Attendance Rate" 
-          value="93.8%" 
-          description="Average monthly attendance rate" 
-          icon={<Clock className="h-5 w-5" />} 
-          trend="vs target (90%)" 
-          trendValue="+3.8%" 
-          trendDirection="up" 
-          onClick={handleAttendanceClick}
-          isActive={showAttendanceTracker}
-        />
-        <StatCard 
-          title="Open Requests" 
-          value="17" 
-          description="Leave and expense requests pending" 
-          icon={<Calendar className="h-5 w-5" />} 
-          trend="last 7 days" 
-          trendValue="5 new" 
-          trendDirection="neutral" 
-          onClick={handleOpenRequestsClick}
-          isActive={showRequestDetails && !showAttendanceCharts && !showAttendanceTracker}
-        />
-        <StatCard 
-          title="Total Budget" 
-          value="$842,250" 
-          description="Q3 HR budget allocation" 
-          icon={<DollarSign className="h-5 w-5" />} 
-          trend="remaining" 
-          trendValue="36%" 
-          trendDirection="neutral" 
-        />
+        <StatCard title="Total Employees" value="248" description="Active employees in the organization" icon={<Users className="h-5 w-5" />} trend="from last month" trendValue="+12" trendDirection="up" />
+        <StatCard title="Attendance Rate" value="93.8%" description="Average monthly attendance rate" icon={<Clock className="h-5 w-5" />} trend="vs target (90%)" trendValue="+3.8%" trendDirection="up" onClick={handleAttendanceClick} isActive={showAttendanceTracker} />
+        <StatCard title="Open Requests" value="17" description="Leave and expense requests pending" icon={<Calendar className="h-5 w-5" />} trend="last 7 days" trendValue="5 new" trendDirection="neutral" onClick={handleOpenRequestsClick} isActive={showRequestDetails && !showAttendanceCharts && !showAttendanceTracker} />
+        <StatCard title="Total Budget" value="$842,250" description="Q3 HR budget allocation" icon={<DollarSign className="h-5 w-5" />} trend="remaining" trendValue="36%" trendDirection="neutral" />
       </div>
       
-      {showAttendanceCharts && (
-        <Card className="mt-6">
+      {showAttendanceCharts && <Card className="mt-6">
           <CardHeader>
             <CardTitle>Attendance Analytics</CardTitle>
             <CardDescription>Overview of employee attendance patterns</CardDescription>
@@ -185,31 +132,18 @@ const HRDashboard: React.FC = () => {
           <CardContent>
             <AttendanceCharts />
           </CardContent>
-        </Card>
-      )}
+        </Card>}
 
-      {showAttendanceTracker && (
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle>Attendance Management</CardTitle>
-            <CardDescription>Track and manage employee attendance</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <AttendanceTracker />
-          </CardContent>
-        </Card>
-      )}
+      {showAttendanceTracker && <Card className="mt-6">
+          
+          
+        </Card>}
       
       <Tabs defaultValue="leave" value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-3 w-[400px]">
-          <TabsTrigger value="leave">Leave Requests</TabsTrigger>
-          <TabsTrigger value="expenses">Expenses</TabsTrigger>
-          <TabsTrigger value="attendance">Attendance</TabsTrigger>
-        </TabsList>
+        
         
         <TabsContent value="leave" className="animate-slide-up">
-          {showRequestDetails && !showAttendanceCharts && !showAttendanceTracker && (
-            <Card>
+          {showRequestDetails && !showAttendanceCharts && !showAttendanceTracker && <Card>
               <CardHeader>
                 <CardTitle>Request Details</CardTitle>
               </CardHeader>
@@ -277,8 +211,7 @@ const HRDashboard: React.FC = () => {
                   </Table>
                 </div>
               </CardContent>
-            </Card>
-          )}
+            </Card>}
         </TabsContent>
         
         <TabsContent value="expenses" className="animate-slide-up">
@@ -330,20 +263,12 @@ const HRDashboard: React.FC = () => {
             <CardContent>
               <div className="flex flex-col space-y-4">
                 <div className="flex items-center justify-center gap-6">
-                  <Button 
-                    variant="outline" 
-                    className="px-4 py-2 h-auto" 
-                    onClick={handleAttendanceClick}
-                  >
+                  <Button variant="outline" className="px-4 py-2 h-auto" onClick={handleAttendanceClick}>
                     <Calendar className="h-5 w-5 mr-2" />
                     <span>Attendance Tracker</span>
                   </Button>
                   
-                  <Button 
-                    variant="outline" 
-                    className="px-4 py-2 h-auto" 
-                    onClick={handleAttendanceChartsClick}
-                  >
+                  <Button variant="outline" className="px-4 py-2 h-auto" onClick={handleAttendanceChartsClick}>
                     <LineChart className="h-5 w-5 mr-2" />
                     <span>Attendance Analytics</span>
                   </Button>
@@ -363,5 +288,4 @@ const HRDashboard: React.FC = () => {
       </Tabs>
     </div>;
 };
-
 export default HRDashboard;
