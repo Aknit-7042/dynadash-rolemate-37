@@ -24,7 +24,8 @@ const navigation: NavigationItem[] = [
   { name: 'Tasks', href: '/dashboard/tasks', icon: ClipboardList, roles: [] }, // Removed 'employee'
   { name: 'Team', href: '/dashboard/team', icon: Briefcase, roles: ['manager'] },
   { name: 'Attendance', href: '/dashboard/attendance', icon: Clock, roles: ['hr', 'manager', 'employee'] },
-  { name: 'Payslip', href: '/dashboard/payroll', icon: Receipt, roles: ['hr', 'employee'] },
+  { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt, roles: ['hr'] },
+  { name: 'My Payslips', href: '/dashboard/payroll', icon: Receipt, roles: ['employee'] },
   { name: 'Updates', href: '/dashboard/updates', icon: Bell, roles: [] }, // Removed 'employee'
   { name: 'Settings', href: '/dashboard/settings', icon: Settings, roles: [] }, // Removed 'employee'
 ];
