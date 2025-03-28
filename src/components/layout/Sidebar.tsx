@@ -17,16 +17,16 @@ import {
 
 const navigation: NavigationItem[] = [
   { name: 'Overview', href: '/dashboard', icon: BarChart4, roles: ['hr', 'manager', 'employee'] },
-  { name: 'Employees', href: '/dashboard/employees', icon: Users, roles: ['hr', 'manager'] },
-  { name: 'Leave Management', href: '/dashboard/leave', icon: Calendar, roles: ['manager', 'employee'] },
+  { name: 'Employees', href: '/dashboard/employees', icon: Users, roles: ['hr'] }, // Removed 'manager'
+  { name: 'Leave Management', href: '/dashboard/leave', icon: Calendar, roles: ['employee'] }, // Removed 'manager'
   { name: 'Expenses', href: '/dashboard/expenses', icon: CreditCard, roles: ['employee'] },
-  { name: 'Reports', href: '/dashboard/reports', icon: FileText, roles: ['manager'] },
-  { name: 'Tasks', href: '/dashboard/tasks', icon: ClipboardList, roles: ['manager', 'employee'] },
+  { name: 'Reports', href: '/dashboard/reports', icon: FileText, roles: ['hr'] }, // Removed 'manager'
+  { name: 'Tasks', href: '/dashboard/tasks', icon: ClipboardList, roles: ['employee'] }, // Removed 'manager'
   { name: 'Team', href: '/dashboard/team', icon: Briefcase, roles: ['manager'] },
   { name: 'Attendance', href: '/dashboard/attendance', icon: Clock, roles: ['hr', 'manager', 'employee'] },
   { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt, roles: ['hr', 'employee'] },
-  { name: 'Updates', href: '/dashboard/updates', icon: Bell, roles: ['manager', 'employee'] },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings, roles: ['manager', 'employee'] },
+  { name: 'Updates', href: '/dashboard/updates', icon: Bell, roles: ['employee'] }, // Removed 'manager'
+  { name: 'Settings', href: '/dashboard/settings', icon: Settings, roles: ['employee'] }, // Removed 'manager'
 ];
 
 const Sidebar: React.FC = () => {
