@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -10,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { BarChart, Calendar, Clock, CreditCard, DollarSign, Users, ArrowUpRight, LineChart, FileText, UserCircle, PiggyBank, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import AttendanceCharts from './AttendanceCharts';
+import AttendanceTracker from './AttendanceTracker';
 
 interface StatCardProps {
   title: string;
@@ -106,15 +106,24 @@ const HRDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('leave');
   const [showRequestDetails, setShowRequestDetails] = useState(false);
   const [showAttendanceCharts, setShowAttendanceCharts] = useState(false);
+  const [showAttendanceTracker, setShowAttendanceTracker] = useState(false);
   
   const handleOpenRequestsClick = () => {
     setShowRequestDetails(true);
     setShowAttendanceCharts(false);
+    setShowAttendanceTracker(false);
     setActiveTab('leave');
   };
 
   const handleAttendanceClick = () => {
+    setShowAttendanceTracker(true);
+    setShowAttendanceCharts(false);
+    setShowRequestDetails(false);
+  };
+
+  const handleAttendanceChartsClick = () => {
     setShowAttendanceCharts(true);
+    setShowAttendanceTracker(false);
     setShowRequestDetails(false);
   };
 
@@ -143,7 +152,7 @@ const HRDashboard: React.FC = () => {
           trendValue="+3.8%" 
           trendDirection="up" 
           onClick={handleAttendanceClick}
-          isActive={showAttendanceCharts}
+          isActive={showAttendanceTracker}
         />
         <StatCard 
           title="Open Requests" 
@@ -154,7 +163,7 @@ const HRDashboard: React.FC = () => {
           trendValue="5 new" 
           trendDirection="neutral" 
           onClick={handleOpenRequestsClick}
-          isActive={showRequestDetails && !showAttendanceCharts}
+          isActive={showRequestDetails && !showAttendanceCharts && !showAttendanceTracker}
         />
         <StatCard 
           title="Total Budget" 
@@ -178,6 +187,18 @@ const HRDashboard: React.FC = () => {
           </CardContent>
         </Card>
       )}
+
+      {showAttendanceTracker && (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle>Attendance Management</CardTitle>
+            <CardDescription>Track and manage employee attendance</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <AttendanceTracker />
+          </CardContent>
+        </Card>
+      )}
       
       <Tabs defaultValue="leave" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid grid-cols-3 w-[400px]">
@@ -187,7 +208,7 @@ const HRDashboard: React.FC = () => {
         </TabsList>
         
         <TabsContent value="leave" className="animate-slide-up">
-          {showRequestDetails && !showAttendanceCharts && (
+          {showRequestDetails && !showAttendanceCharts && !showAttendanceTracker && (
             <Card>
               <CardHeader>
                 <CardTitle>Request Details</CardTitle>
@@ -307,7 +328,27 @@ const HRDashboard: React.FC = () => {
               <CardDescription>Monitor employee attendance patterns</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center justify-center h-60">
+              <div className="flex flex-col space-y-4">
+                <div className="flex items-center justify-center gap-6">
+                  <Button 
+                    variant="outline" 
+                    className="px-4 py-2 h-auto" 
+                    onClick={handleAttendanceClick}
+                  >
+                    <Calendar className="h-5 w-5 mr-2" />
+                    <span>Attendance Tracker</span>
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    className="px-4 py-2 h-auto" 
+                    onClick={handleAttendanceChartsClick}
+                  >
+                    <LineChart className="h-5 w-5 mr-2" />
+                    <span>Attendance Analytics</span>
+                  </Button>
+                </div>
+                
                 <div className="text-center space-y-2">
                   <LineChart className="h-12 w-12 mx-auto text-muted-foreground" />
                   <h3 className="font-medium">Attendance Analytics</h3>
