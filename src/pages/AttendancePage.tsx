@@ -1,219 +1,179 @@
+
 import React, { useState } from 'react';
-import { Check, X } from 'lucide-react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell
-} from '@/components/ui/table';
-import AttendanceCharts from '@/components/dashboard/hr/AttendanceCharts';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Calendar } from '@/components/ui/calendar';
+import { Clock, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
+import { format } from 'date-fns';
 
-// Sample data for attendance records
+// Sample attendance data
 const attendanceData = [
-  {
-    id: 'MED001',
-    name: 'Arun',
-    department: 'SALES',
-    attendance: '18/20',
-    days: [false, false, true, true, true, false, true, false, false, true, true, true, true, false]
-  },
-  {
-    id: 'MED002',
-    name: 'Naman',
-    department: 'Design',
-    attendance: '18/20',
-    days: [false, false, true, false, true, true, true, false, false, true, true, true, true, false]
-  },
-  {
-    id: 'MED003',
-    name: 'Amit',
-    department: 'Marketing',
-    attendance: '18/20',
-    days: [false, false, true, true, true, false, true, false, false, true, true, false, true, true]
-  },
-  {
-    id: 'MED004',
-    name: 'Mahesh',
-    department: 'SALES',
-    attendance: '18/20',
-    days: [false, false, false, true, true, true, true, false, false, true, true, true, false, true]
-  },
-  {
-    id: 'MED005',
-    name: 'Rohit',
-    department: 'HR',
-    attendance: '18/20',
-    days: [false, false, true, true, true, true, false, false, false, true, true, true, true, false]
-  },
-  {
-    id: 'MED006',
-    name: 'Suresh',
-    department: 'IT',
-    attendance: '18/20',
-    days: [false, false, true, true, false, true, true, false, false, 'half-day', true, true, true, true]
-  },
-  {
-    id: 'MED007',
-    name: 'Arun',
-    department: 'SALES',
-    attendance: '18/20',
-    days: [false, false, true, true, true, false, true, false, false, true, true, true, true, false]
-  },
-  {
-    id: 'MED008',
-    name: 'Naman',
-    department: 'Design',
-    attendance: '18/20',
-    days: [false, false, true, false, true, true, true, false, false, true, true, true, true, false]
-  },
-  {
-    id: 'MED009',
-    name: 'Amit',
-    department: 'Marketing',
-    attendance: '18/20',
-    days: [false, false, true, true, true, false, true, false, false, true, true, false, true, false]
-  }
+  { date: new Date(2023, 4, 1), status: 'present', checkIn: '09:05 AM', checkOut: '06:10 PM', workingHours: '9h 05m' },
+  { date: new Date(2023, 4, 2), status: 'present', checkIn: '09:00 AM', checkOut: '06:00 PM', workingHours: '9h 00m' },
+  { date: new Date(2023, 4, 3), status: 'absent', checkIn: '', checkOut: '', workingHours: '0h 00m' },
+  { date: new Date(2023, 4, 4), status: 'half-day', checkIn: '09:00 AM', checkOut: '01:30 PM', workingHours: '4h 30m' },
+  { date: new Date(2023, 4, 5), status: 'present', checkIn: '08:55 AM', checkOut: '06:05 PM', workingHours: '9h 10m' },
+  { date: new Date(2023, 4, 8), status: 'present', checkIn: '09:02 AM', checkOut: '06:00 PM', workingHours: '8h 58m' },
+  { date: new Date(2023, 4, 9), status: 'present', checkIn: '09:00 AM', checkOut: '06:15 PM', workingHours: '9h 15m' },
+  { date: new Date(2023, 4, 10), status: 'half-day', checkIn: '09:00 AM', checkOut: '02:00 PM', workingHours: '5h 00m' },
+  { date: new Date(2023, 4, 11), status: 'present', checkIn: '08:50 AM', checkOut: '06:05 PM', workingHours: '9h 15m' },
+  { date: new Date(2023, 4, 12), status: 'present', checkIn: '09:00 AM', checkOut: '06:00 PM', workingHours: '9h 00m' },
+  { date: new Date(2023, 4, 15), status: 'absent', checkIn: '', checkOut: '', workingHours: '0h 00m' },
+  { date: new Date(2023, 4, 16), status: 'present', checkIn: '09:00 AM', checkOut: '06:00 PM', workingHours: '9h 00m' },
+  { date: new Date(2023, 4, 17), status: 'present', checkIn: '09:10 AM', checkOut: '06:15 PM', workingHours: '9h 05m' },
+  { date: new Date(2023, 4, 18), status: 'present', checkIn: '08:55 AM', checkOut: '06:10 PM', workingHours: '9h 15m' },
+  { date: new Date(2023, 4, 19), status: 'half-day', checkIn: '09:00 AM', checkOut: '01:45 PM', workingHours: '4h 45m' },
 ];
 
-const days = [
-  { day: '01', weekday: 'Mon' },
-  { day: '02', weekday: 'Tue' },
-  { day: '03', weekday: 'Wed' },
-  { day: '04', weekday: 'Thu' },
-  { day: '05', weekday: 'Fri' },
-  { day: '06', weekday: 'Sat' },
-  { day: '07', weekday: 'Sun' },
-  { day: '08', weekday: 'Mon' },
-  { day: '09', weekday: 'Tue' },
-  { day: '10', weekday: 'Wed' },
-  { day: '11', weekday: 'Thu' },
-  { day: '12', weekday: 'Fri' },
-  { day: '13', weekday: 'Sat' },
-  { day: '14', weekday: 'Sun' }
-];
+const AttendancePage: React.FC = () => {
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [month, setMonth] = useState<Date>(new Date());
 
-// Render attendance cell based on attendance status
-const renderAttendanceCell = (status: boolean | string) => {
-  if (status === 'half-day') {
-    return (
-      <div className="flex justify-center">
-        <div className="w-6 h-6 rounded-full bg-purple-500"></div>
-      </div>
-    );
-  } else if (status === true) {
-    return (
-      <div className="flex justify-center">
-        <Check className="w-5 h-5 text-green-500" />
-      </div>
-    );
-  } else if (status === false) {
-    return (
-      <div className="flex justify-center">
-        <X className="w-5 h-5 text-red-500" />
-      </div>
-    );
-  }
-  return null;
-};
+  // Find attendance info for the selected date
+  const selectedAttendance = selectedDate 
+    ? attendanceData.find(item => 
+        item.date.getDate() === selectedDate.getDate() && 
+        item.date.getMonth() === selectedDate.getMonth() && 
+        item.date.getFullYear() === selectedDate.getFullYear())
+    : undefined;
 
-const AttendancePage = () => {
-  // Sample data for attendance records
-
-  const [activeTab, setActiveTab] = useState('attendance');
+  // Function to determine the modifiers for each date
+  const getDayClassNames = (day: Date) => {
+    const found = attendanceData.find(item => 
+      item.date.getDate() === day.getDate() && 
+      item.date.getMonth() === day.getMonth() && 
+      item.date.getFullYear() === day.getFullYear()
+    );
+    
+    if (!found) return undefined;
+    
+    if (found.status === 'present') return 'bg-green-500 text-white hover:bg-green-600';
+    if (found.status === 'absent') return 'bg-red-500 text-white hover:bg-red-600';
+    if (found.status === 'half-day') return 'bg-gray-400 text-white hover:bg-gray-500';
+    
+    return undefined;
+  };
 
   return (
-    <div className="space-y-6">
-      <Tabs defaultValue="attendance">
-        <TabsList className="mb-4">
-          <TabsTrigger value="attendance" className="text-blue-500">
-            Attendance Tracker
-          </TabsTrigger>
-          <TabsTrigger value="analytics">
-            Analytics
-          </TabsTrigger>
-          <TabsTrigger value="leave">
-            Leave Tracker
-          </TabsTrigger>
-          <TabsTrigger value="basic">
-            Basic
-          </TabsTrigger>
-          <TabsTrigger value="id">
-            ID Proofs
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="attendance" className="space-y-4">
-          <div className="rounded-md border bg-white overflow-hidden">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="font-medium">
-                      Employee ID
-                    </TableHead>
-                    <TableHead className="font-medium">
-                      Name
-                    </TableHead>
-                    <TableHead className="font-medium">
-                      Department
-                    </TableHead>
-                    <TableHead className="font-medium">
-                      P / T.W.D
-                    </TableHead>
-                    {days.map((day, idx) => (
-                      <TableHead key={idx} className="text-center font-medium min-w-[50px]">
-                        <div>Jan</div>
-                        <div>{day.day}</div>
-                        <div className="text-xs">{day.weekday}</div>
-                      </TableHead>
-                    ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {attendanceData.map((employee, idx) => (
-                    <TableRow key={idx}>
-                      <TableCell>{employee.id}</TableCell>
-                      <TableCell>{employee.name}</TableCell>
-                      <TableCell>{employee.department}</TableCell>
-                      <TableCell>{employee.attendance}</TableCell>
-                      {employee.days.map((status, dayIdx) => (
-                        <TableCell key={dayIdx} className="py-2 px-1">
-                          {renderAttendanceCell(status)}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="analytics">
-          <AttendanceCharts />
-        </TabsContent>
-
-        <TabsContent value="leave">
-          <div className="h-32 flex items-center justify-center border rounded-md">
-            <p className="text-muted-foreground">Leave Tracker content will go here</p>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="basic">
-          <div className="h-32 flex items-center justify-center border rounded-md">
-            <p className="text-muted-foreground">Basic content will go here</p>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="id">
-          <div className="h-32 flex items-center justify-center border rounded-md">
-            <p className="text-muted-foreground">ID Proofs content will go here</p>
-          </div>
-        </TabsContent>
-      </Tabs>
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold tracking-tight">Attendance</h1>
+        <Badge className="bg-employee text-employee-foreground text-sm py-1 px-3">Employee Role</Badge>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div className="md:col-span-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Calendar className="h-5 w-5 text-blue-500" />
+                Attendance Calendar
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Calendar 
+                mode="single"
+                selected={selectedDate}
+                onSelect={setSelectedDate}
+                month={month}
+                onMonthChange={setMonth}
+                className="rounded-md border p-3"
+                modifiersClassNames={{
+                  selected: 'ring-2 ring-blue-600',
+                }}
+                modifiers={{
+                  present: attendanceData
+                    .filter(day => day.status === 'present')
+                    .map(day => day.date),
+                  absent: attendanceData
+                    .filter(day => day.status === 'absent')
+                    .map(day => day.date),
+                  halfDay: attendanceData
+                    .filter(day => day.status === 'half-day')
+                    .map(day => day.date),
+                }}
+                modifiersStyles={{
+                  present: { backgroundColor: '#22c55e', color: 'white' },
+                  absent: { backgroundColor: '#ef4444', color: 'white' },
+                  halfDay: { backgroundColor: '#9ca3af', color: 'white' }
+                }}
+              />
+            </CardContent>
+          </Card>
+        </div>
+        
+        <div className="md:col-span-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="h-5 w-5 text-blue-500" />
+                {selectedDate ? (
+                  <>Attendance Details: {format(selectedDate, 'dd MMMM yyyy')}</>
+                ) : (
+                  <>Attendance Details</>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {selectedAttendance ? (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <div className="text-sm font-medium">Status:</div>
+                    <div className="flex items-center">
+                      {selectedAttendance.status === 'present' && (
+                        <Badge className="bg-green-500">
+                          <CheckCircle2 className="h-3 w-3 mr-1" />
+                          Present
+                        </Badge>
+                      )}
+                      {selectedAttendance.status === 'absent' && (
+                        <Badge className="bg-red-500">
+                          <XCircle className="h-3 w-3 mr-1" />
+                          Absent
+                        </Badge>
+                      )}
+                      {selectedAttendance.status === 'half-day' && (
+                        <Badge className="bg-gray-400">
+                          <AlertCircle className="h-3 w-3 mr-1" />
+                          Half Day
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {selectedAttendance.status !== 'absent' && (
+                    <>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <div className="text-sm font-medium">Check In</div>
+                          <div className="text-lg">{selectedAttendance.checkIn}</div>
+                        </div>
+                        <div className="space-y-1">
+                          <div className="text-sm font-medium">Check Out</div>
+                          <div className="text-lg">{selectedAttendance.checkOut}</div>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-1">
+                        <div className="text-sm font-medium">Working Hours</div>
+                        <div className="text-lg font-semibold">{selectedAttendance.workingHours}</div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div className="text-muted-foreground py-8 text-center">
+                  {selectedDate ? (
+                    <p>No attendance record found for this date.</p>
+                  ) : (
+                    <p>Select a date to view attendance details.</p>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 };
