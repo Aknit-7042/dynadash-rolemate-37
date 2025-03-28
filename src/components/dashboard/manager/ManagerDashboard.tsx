@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { useRole } from '@/context/RoleContext';
-import { BarChart3, Clock, Users, Calendar } from 'lucide-react';
+import { BarChart3, Clock, Users, Calendar, User, DollarSign, FileText } from 'lucide-react';
 import StatCard from './StatCard';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -123,16 +124,16 @@ const ManagerDashboard: React.FC = () => {
                   <span>Leave Requests</span>
                 </Button>
                 <Button variant="outline" className="flex items-center justify-center gap-2 rounded-md py-6">
-                  <Clock className="h-5 w-5" />
-                  <span>Time Off</span>
+                  <User className="h-5 w-5" />
+                  <span>Profile Updates</span>
                 </Button>
                 <Button variant="outline" className="flex items-center justify-center gap-2 rounded-md py-6">
-                  <Users className="h-5 w-5" />
-                  <span>Team Schedule</span>
+                  <DollarSign className="h-5 w-5" />
+                  <span>Expense</span>
                 </Button>
                 <Button variant="outline" className="flex items-center justify-center gap-2 rounded-md py-6">
-                  <BarChart3 className="h-5 w-5" />
-                  <span>Reports</span>
+                  <FileText className="h-5 w-5" />
+                  <span>Advance</span>
                 </Button>
               </div>
               
