@@ -8,11 +8,12 @@ import { NavigationItem, Role } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { 
   BarChart4, Users, Calendar, FileText, UserCog, 
   CheckSquare, Briefcase, Receipt, Bell, Settings, 
   CreditCard, Clock, ChevronLeft, ChevronRight,
-  ClipboardList
+  ClipboardList, Menu
 } from 'lucide-react';
 
 const navigation: NavigationItem[] = [
@@ -38,7 +39,7 @@ const Sidebar: React.FC = () => {
   if (!user || !currentRole) return null;
 
   const filteredNavigation = navigation.filter(
-    (item) => item.roles.includes(currentRole)
+    (item) => item.roles.includes(currentRole as Role)
   );
 
   return (
@@ -104,6 +105,16 @@ const Sidebar: React.FC = () => {
           </TooltipProvider>
         </div>
       </ScrollArea>
+      
+      {/* Mobile menu trigger */}
+      <Button 
+        variant="ghost" 
+        size="icon" 
+        className="md:hidden absolute top-4 right-4"
+        onClick={() => setCollapsed(!collapsed)}
+      >
+        <Menu className="h-5 w-5" />
+      </Button>
     </div>
   );
 };
