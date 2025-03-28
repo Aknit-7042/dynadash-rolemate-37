@@ -8,12 +8,11 @@ import { NavigationItem, Role } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { 
   BarChart4, Users, Calendar, FileText, UserCog, 
   CheckSquare, Briefcase, Receipt, Bell, Settings, 
   CreditCard, Clock, ChevronLeft, ChevronRight,
-  ClipboardList, Menu
+  ClipboardList, Menu, PanelLeft, PanelRight
 } from 'lucide-react';
 
 const navigation: NavigationItem[] = [
@@ -42,6 +41,10 @@ const Sidebar: React.FC = () => {
     (item) => item.roles.includes(currentRole as Role)
   );
 
+  const toggleSidebar = () => {
+    setCollapsed(!collapsed);
+  };
+
   return (
     <div 
       className={cn(
@@ -59,13 +62,13 @@ const Sidebar: React.FC = () => {
           variant="ghost" 
           size="icon" 
           className={cn(
-            "absolute -right-4 top-16 z-10 rounded-full border shadow-md",
-            "flex items-center justify-center bg-background",
-            collapsed && "left-auto"
+            "rounded-full",
+            collapsed ? "mx-auto" : "ml-auto"
           )}
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={toggleSidebar}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          {collapsed ? <PanelRight className="h-4 w-4" /> : <PanelLeft className="h-4 w-4" />}
         </Button>
       </div>
       
@@ -111,7 +114,7 @@ const Sidebar: React.FC = () => {
         variant="ghost" 
         size="icon" 
         className="md:hidden absolute top-4 right-4"
-        onClick={() => setCollapsed(!collapsed)}
+        onClick={toggleSidebar}
       >
         <Menu className="h-5 w-5" />
       </Button>
