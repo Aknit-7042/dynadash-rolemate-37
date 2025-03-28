@@ -180,6 +180,11 @@ const HRDashboard: React.FC = () => {
       )}
       
       <Tabs defaultValue="leave" value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="grid grid-cols-3 w-[400px]">
+          <TabsTrigger value="leave">Leave Requests</TabsTrigger>
+          <TabsTrigger value="expenses">Expenses</TabsTrigger>
+          <TabsTrigger value="attendance">Attendance</TabsTrigger>
+        </TabsList>
         
         <TabsContent value="leave" className="animate-slide-up">
           {showRequestDetails && !showAttendanceCharts && (
