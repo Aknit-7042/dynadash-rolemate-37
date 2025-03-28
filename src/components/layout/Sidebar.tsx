@@ -74,7 +74,7 @@ const Sidebar: React.FC = () => {
       <ScrollArea className="flex-1">
         <div className="px-2 py-4">
           <TooltipProvider delayDuration={0}>
-            <nav className="space-y-1.5">
+            <nav className="space-y-6">
               {filteredNavigation.map((item) => (
                 <Tooltip key={item.name} delayDuration={100}>
                   <TooltipTrigger asChild>
@@ -89,11 +89,10 @@ const Sidebar: React.FC = () => {
                         )
                       }
                     >
-                      <item.icon className={cn(
-                        "h-5 w-5 shrink-0",
-                        collapsed ? "mr-0" : "mr-2"
-                      )} />
-                      {!collapsed && <span>{item.name}</span>}
+                      <div className="flex items-center">
+                        <item.icon className="h-5 w-5 shrink-0" />
+                        {!collapsed && <span className="ml-3">{item.name}</span>}
+                      </div>
                     </NavLink>
                   </TooltipTrigger>
                   {collapsed && (
@@ -107,8 +106,6 @@ const Sidebar: React.FC = () => {
           </TooltipProvider>
         </div>
       </ScrollArea>
-
-      {/* Removed RoleSwitcher from sidebar footer */}
     </div>
   );
 };
