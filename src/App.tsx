@@ -16,6 +16,7 @@ import LeaveManagementPage from "./pages/LeaveManagementPage";
 import TeamMemberPage from "./pages/TeamMemberPage";
 import TeamPage from "./pages/TeamPage";
 import PayrollPage from "./pages/PayrollPage";
+import ExpensePage from "./pages/ExpensePage";
 import MainLayout from "./components/layout/MainLayout";
 import NotFound from "./pages/NotFound";
 
@@ -39,7 +40,7 @@ const App = () => (
                 <Route path="leave" element={<LeaveManagementPage />} />
                 <Route path="team-member/:memberId" element={<TeamMemberPage />} />
                 <Route path="team" element={<TeamPage />} />
-                <Route path="expenses" element={<Dashboard />} />
+                <Route path="expenses" element={<ExpensePage />} />
                 <Route path="payroll" element={<PayrollPage />} />
                 <Route path="reports" element={<Dashboard />} />
                 <Route path="users" element={<Dashboard />} />
