@@ -7,7 +7,7 @@ import AttendanceTracker from '@/components/dashboard/hr/AttendanceTracker';
 import AttendanceCharts from '@/components/dashboard/hr/AttendanceCharts';
 import EmployeeAttendance from '@/components/dashboard/employee/EmployeeAttendance';
 
-const AttendancePage: React.FC = () => {
+const AttendancePage = () => {
   const { currentRole } = useRole();
   const [activeTab, setActiveTab] = useState('tracker');
   

@@ -61,8 +61,8 @@ const teamMembersData = [
   }
 ];
 
-const TeamMemberPage: React.FC = () => {
-  const { memberId } = useParams<{ memberId: string }>();
+const TeamMemberPage = () => {
+  const { memberId } = useParams();
   const { currentRole } = useRole();
   const navigate = useNavigate();
 
@@ -140,7 +140,7 @@ const TeamMemberPage: React.FC = () => {
                 <p className="font-medium">{member.email}</p>
               </div>
               <div className="border-b pb-3">
-                <h3 className="text-sm font-medium text-muted-foreground mb-1">Phone Number</h3>
+                <h3 className="text-sm font-medium text-muted-foreground mb-1">Phone</h3>
                 <p className="font-medium">{member.phone}</p>
               </div>
               <div className="border-b pb-3">

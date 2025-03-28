@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useNavigate } from 'react-router-dom';
 
-const TopNavSection: React.FC = () => {
+const TopNavSection = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const TopNavSection: React.FC = () => {
     navigate('/login');
   };
 
-  const getInitials = (name: string) => {
+  const getInitials = (name) => {
     return name
       .split(' ')
       .map(part => part[0])

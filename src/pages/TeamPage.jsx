@@ -69,7 +69,7 @@ const teamMembers = [
   }
 ];
 
-const TeamPage: React.FC = () => {
+const TeamPage = () => {
   const navigate = useNavigate();
 
   return (

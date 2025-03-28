@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import LoginForm from '@/components/auth/LoginForm';
 
-const Login = () => {
+const Login: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 

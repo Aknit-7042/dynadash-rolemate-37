@@ -6,18 +6,11 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar, Clock, CreditCard, FileText, MessageSquare, CheckCircle2, LucideIcon, PieChart, Users, Bell, CheckSquare, AlertTriangle, ArrowUpRight, User, DollarSign } from 'lucide-react';
+import { Calendar, Clock, CreditCard, FileText, MessageSquare, CheckCircle2, PieChart, Users, Bell, CheckSquare, AlertTriangle, ArrowUpRight, User, DollarSign } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import StatCard from '../manager/StatCard';
 
-interface UpdateProps {
-  title: string;
-  content: string;
-  date: string;
-  isImportant?: boolean;
-}
-
-const Update: React.FC<UpdateProps> = ({
+const Update = ({
   title,
   content,
   date,
@@ -36,10 +29,10 @@ const Update: React.FC<UpdateProps> = ({
     </div>;
 };
 
-const EmployeeDashboard: React.FC = () => {
+const EmployeeDashboard = () => {
   const navigate = useNavigate();
   const today = new Date();
-  const dateOptions: Intl.DateTimeFormatOptions = {
+  const dateOptions = {
     month: 'short',
     day: 'numeric'
   };

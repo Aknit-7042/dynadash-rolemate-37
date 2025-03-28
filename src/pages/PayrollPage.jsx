@@ -13,7 +13,7 @@ import {
 import { CalendarIcon, FileText, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const PayrollPage: React.FC = () => {
+const PayrollPage = () => {
   const { currentRole } = useRole();
   
   // Employee view of payroll/payslip

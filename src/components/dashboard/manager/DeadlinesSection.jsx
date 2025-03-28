@@ -3,17 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-interface Deadline {
-  title: string;
-  description: string;
-  date: string;
-}
-
-interface DeadlinesSectionProps {
-  deadlines: Deadline[];
-}
-
-const DeadlinesSection: React.FC<DeadlinesSectionProps> = ({ deadlines }) => {
+const DeadlinesSection = ({ deadlines }) => {
   return (
     <Card>
       <CardHeader>

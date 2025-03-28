@@ -5,7 +5,7 @@ import ExpenseForm from '@/components/expense/ExpenseForm';
 import ExpenseHistory from '@/components/expense/ExpenseHistory';
 import { Separator } from '@/components/ui/separator';
 
-const ExpensePage: React.FC = () => {
+const ExpensePage = () => {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">

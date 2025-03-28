@@ -5,7 +5,7 @@ import HRDashboard from '@/components/dashboard/hr/HRDashboard';
 import ManagerDashboard from '@/components/dashboard/manager/ManagerDashboard';
 import EmployeeDashboard from '@/components/dashboard/employee/EmployeeDashboard';
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   const { currentRole, isRoleSwitching } = useRole();
 
   const renderDashboard = () => {

@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import LeaveApplicationForm from '@/components/leave/LeaveApplicationForm';
 
-const LeaveManagementPage: React.FC = () => {
+const LeaveManagementPage = () => {
   // Sample leave balance data
   const leaveBalances = [
     { type: 'Casual Leave', used: 8, total: 12 },
