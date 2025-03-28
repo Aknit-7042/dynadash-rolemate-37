@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate, NavLink } from 'react-router-dom';
@@ -56,31 +55,19 @@ const Navbar: React.FC = () => {
       .toUpperCase();
   };
 
-  // Navigation items for HR role
   const hrNavigationItems = [
     { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
     { name: 'Employees', href: '/dashboard/employees', icon: Users },
-    { 
-      name: 'Attendance', 
-      href: '/dashboard/attendance', 
-      icon: Clock,
-      badge: {
-        text: '93.8%',
-        tooltip: 'Average monthly attendance rate',
-        className: 'bg-green-100 text-green-800'
-      }
-    },
+    { name: 'Attendance', href: '/dashboard/attendance', icon: Clock },
     { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
   ];
 
-  // Navigation items for manager role
   const managerNavigationItems = [
     { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
     { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
     { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
   ];
 
-  // Navigation items for employee role
   const employeeNavigationItems = [
     { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
     { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
@@ -90,7 +77,6 @@ const Navbar: React.FC = () => {
     { name: 'Expenses', href: '/dashboard/expenses', icon: FileText },
   ];
 
-  // Select navigation items based on current role
   let navigationItems;
   if (currentRole === 'hr') {
     navigationItems = hrNavigationItems;
@@ -106,7 +92,6 @@ const Navbar: React.FC = () => {
         <div className="flex items-center gap-6">
           <div className="font-bold text-2xl">MEDHIR</div>
           
-          {/* Horizontal role switcher */}
           <div className="flex items-center gap-2">
             {user.roles.map((role: Role) => (
               <Badge
