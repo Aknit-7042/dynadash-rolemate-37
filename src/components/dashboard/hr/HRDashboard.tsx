@@ -131,7 +131,7 @@ const HRDashboard: React.FC = () => {
         <StatCard title="Total Employees" value="248" description="Active employees in the organization" icon={<Users className="h-5 w-5" />} trend="from last month" trendValue="+12" trendDirection="up" />
         <StatCard title="Attendance Rate" value="93.8%" description="Average monthly attendance rate" icon={<Clock className="h-5 w-5" />} trend="vs target (90%)" trendValue="+3.8%" trendDirection="up" onClick={handleAttendanceClick} isActive={showAttendanceTracker} />
         <StatCard title="Open Requests" value="17" description="Leave and expense requests pending" icon={<Calendar className="h-5 w-5" />} trend="last 7 days" trendValue="5 new" trendDirection="neutral" onClick={handleOpenRequestsClick} isActive={showRequestDetails && !showAttendanceCharts && !showAttendanceTracker} />
-        <StatCard title="Total Budget" value="$842,250" description="Q3 HR budget allocation" icon={<DollarSign className="h-5 w-5" />} trend="remaining" trendValue="36%" trendDirection="neutral" />
+        <StatCard title="Payroll Processed" value="$842,250" description="Q3 HR budget allocation" icon={<DollarSign className="h-5 w-5" />} trend="remaining" trendValue="36%" trendDirection="neutral" />
       </div>
       
       {showAttendanceCharts && <Card className="mt-6">
