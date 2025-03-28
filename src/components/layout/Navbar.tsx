@@ -1,11 +1,18 @@
-
 import React from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { 
   Bell, 
+  Calendar, 
+  Receipt, 
+  CheckSquare, 
   Settings,
   User,
+  FileText,
+  DollarSign,
+  Users,
+  BarChart4,
+  Clock
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -14,6 +21,7 @@ import { cn } from '@/lib/utils';
 import { useRole } from '@/context/RoleContext';
 import { Badge } from '@/components/ui/badge';
 import { Role } from '@/lib/types';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const roleLabels = {
   hr: 'HR',
@@ -29,7 +37,7 @@ const roleColors = {
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
-  const { currentRole, switchRole } = useRole();
+  const { currentRole, switchRole, isRoleSwitching } = useRole();
   const navigate = useNavigate();
 
   if (!user) return null;
@@ -46,6 +54,37 @@ const Navbar: React.FC = () => {
       .join('')
       .toUpperCase();
   };
+
+  const hrNavigationItems = [
+    { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
+    { name: 'Employees', href: '/dashboard/employees', icon: Users },
+    { name: 'Attendance', href: '/dashboard/attendance', icon: Clock },
+    { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
+  ];
+
+  const managerNavigationItems = [
+    { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
+    { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
+    { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
+  ];
+
+  const employeeNavigationItems = [
+    { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
+    { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
+    { name: 'Leaves', href: '/dashboard/leave', icon: Calendar },
+    { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
+    { name: 'Payslip', href: '/dashboard/payroll', icon: Receipt },
+    { name: 'Expenses', href: '/dashboard/expenses', icon: FileText },
+  ];
+
+  let navigationItems;
+  if (currentRole === 'hr') {
+    navigationItems = hrNavigationItems;
+  } else if (currentRole === 'manager') {
+    navigationItems = managerNavigationItems;
+  } else {
+    navigationItems = employeeNavigationItems;
+  }
 
   return (
     <header className="h-16 border-b bg-white shadow-sm sticky top-0 z-30">
@@ -71,6 +110,37 @@ const Navbar: React.FC = () => {
             ))}
           </div>
         </div>
+
+        <nav className="hidden md:flex items-center gap-6">
+          {navigationItems.map((item) => (
+            <TooltipProvider key={item.name} delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <NavLink
+                    to={item.href}
+                    className={({ isActive }) => cn(
+                      'flex items-center gap-2 text-neutral-600 hover:text-blue-500 transition-colors',
+                      isActive && 'font-medium text-blue-500'
+                    )}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    <span>{item.name}</span>
+                    {item.badge && (
+                      <Badge className={cn("ml-1 text-xs py-0 px-1.5", item.badge.className)}>
+                        {item.badge.text}
+                      </Badge>
+                    )}
+                  </NavLink>
+                </TooltipTrigger>
+                {item.badge?.tooltip && (
+                  <TooltipContent>
+                    <p>{item.badge.tooltip}</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
+          ))}
+        </nav>
 
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" className="rounded-full">

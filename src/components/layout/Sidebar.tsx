@@ -12,7 +12,7 @@ import {
   BarChart4, Users, Calendar, FileText, UserCog, 
   CheckSquare, Briefcase, Receipt, Bell, Settings, 
   CreditCard, Clock, ChevronLeft, ChevronRight,
-  ClipboardList, Menu, PanelLeft, PanelRight
+  ClipboardList
 } from 'lucide-react';
 
 const navigation: NavigationItem[] = [
@@ -38,12 +38,8 @@ const Sidebar: React.FC = () => {
   if (!user || !currentRole) return null;
 
   const filteredNavigation = navigation.filter(
-    (item) => item.roles.includes(currentRole as Role)
+    (item) => item.roles.includes(currentRole)
   );
-
-  const toggleSidebar = () => {
-    setCollapsed(!collapsed);
-  };
 
   return (
     <div 
@@ -62,30 +58,15 @@ const Sidebar: React.FC = () => {
           variant="ghost" 
           size="icon" 
           className={cn(
-            "rounded-full",
-            collapsed ? "mx-auto" : "ml-auto"
+            "absolute -right-4 top-16 z-10 rounded-full border shadow-md",
+            "flex items-center justify-center bg-background",
+            collapsed && "left-auto"
           )}
-          onClick={toggleSidebar}
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          onClick={() => setCollapsed(!collapsed)}
         >
-          {collapsed ? <PanelRight className="h-4 w-4" /> : <PanelLeft className="h-4 w-4" />}
+          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
       </div>
-      
-      {/* Additional toggle button above dashboard area */}
-      <Button
-        variant="ghost"
-        size="sm"
-        className="my-2 mx-auto flex items-center justify-center"
-        onClick={toggleSidebar}
-        aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-      >
-        {collapsed ? (
-          <ChevronRight className="h-5 w-5 text-primary" />
-        ) : (
-          <ChevronLeft className="h-5 w-5 text-primary" />
-        )}
-      </Button>
       
       <ScrollArea className="flex-1">
         <div className="px-2 py-4">
@@ -123,38 +104,6 @@ const Sidebar: React.FC = () => {
           </TooltipProvider>
         </div>
       </ScrollArea>
-      
-      {/* Always visible toggle button at the bottom */}
-      <div className="p-4 border-t">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          className="w-full flex items-center justify-center"
-          onClick={toggleSidebar}
-        >
-          {collapsed ? (
-            <>
-              <ChevronRight className="h-4 w-4" />
-              <span className="sr-only">Expand</span>
-            </>
-          ) : (
-            <>
-              <ChevronLeft className="h-4 w-4 mr-2" />
-              <span>Collapse</span>
-            </>
-          )}
-        </Button>
-      </div>
-      
-      {/* Mobile menu trigger */}
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        className="md:hidden absolute top-4 right-4"
-        onClick={toggleSidebar}
-      >
-        <Menu className="h-5 w-5" />
-      </Button>
     </div>
   );
 };
