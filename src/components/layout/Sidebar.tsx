@@ -8,7 +8,6 @@ import { NavigationItem, Role } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import RoleSwitcher from './RoleSwitcher';
 import TopNavSection from './TopNavSection';
 import { 
   BarChart4, Users, Calendar, FileText, UserCog, 
@@ -90,10 +89,10 @@ const Sidebar: React.FC = () => {
                       to={item.href}
                       className={({ isActive }) =>
                         cn(
-                          'flex items-center justify-start py-2 px-3 rounded-md text-sm font-medium transition-colors',
+                          'flex items-center py-2 px-3 rounded-md text-sm font-medium transition-colors',
                           'hover:bg-accent hover:text-accent-foreground hover:shadow',
                           isActive ? 'bg-accent' : 'transparent',
-                          collapsed && 'justify-center px-0'
+                          collapsed ? 'justify-center px-0' : 'justify-start'
                         )
                       }
                     >
@@ -116,11 +115,7 @@ const Sidebar: React.FC = () => {
         </div>
       </ScrollArea>
 
-      {!collapsed && (
-        <div className="p-4 border-t">
-          <RoleSwitcher />
-        </div>
-      )}
+      {/* Removed RoleSwitcher from sidebar footer */}
     </div>
   );
 };
