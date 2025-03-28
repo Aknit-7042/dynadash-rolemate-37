@@ -12,7 +12,8 @@ import {
   FileText,
   DollarSign,
   Users,
-  BarChart4
+  BarChart4,
+  Clock
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -58,18 +59,18 @@ const Navbar: React.FC = () => {
   const hrNavigationItems = [
     { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
     { name: 'Employees', href: '/dashboard/employees', icon: Users },
-    { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
+    { name: 'Attendance', href: '/dashboard/attendance', icon: Clock },
     { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
   ];
 
-  // Navigation items for manager role - removed Leaves, Expenses, Payroll and moved My Task next to Dashboard
+  // Navigation items for manager role
   const managerNavigationItems = [
     { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
     { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
     { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
   ];
 
-  // Navigation items for employee role - reorganized order and renamed Payroll to Payslip
+  // Navigation items for employee role
   const employeeNavigationItems = [
     { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
     { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },

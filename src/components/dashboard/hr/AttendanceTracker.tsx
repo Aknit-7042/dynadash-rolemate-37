@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Calendar, Search, Check, X } from 'lucide-react';
 
 interface EmployeeAttendanceRecord {
@@ -13,7 +14,7 @@ interface EmployeeAttendanceRecord {
   attendance: Record<string, 'present' | 'absent' | 'halfday' | 'pending' | 'weekend'>;
 }
 
-const daysOfMonth = Array.from({ length: 14 }, (_, i) => {
+const daysOfMonth = Array.from({ length: 31 }, (_, i) => {
   const day = i + 1;
   const date = new Date(2023, 0, day); // January 2023
   return {
@@ -26,68 +27,97 @@ const daysOfMonth = Array.from({ length: 14 }, (_, i) => {
 const employeeAttendanceData: EmployeeAttendanceRecord[] = [
   { 
     id: 'MED001', 
-    name: 'Arun', 
-    department: 'SALES', 
+    name: 'John Doe', 
+    department: 'Engineering', 
     presentDays: '18/20', 
     attendance: {
-      '3': 'present', '4': 'present', '5': 'present', '6': 'absent', '7': 'present',
-      '10': 'present', '11': 'present', '12': 'present', '13': 'present', '14': 'absent'
+      '1': 'present', '2': 'present', '3': 'present', '4': 'present', '5': 'present',
+      '8': 'present', '9': 'present', '10': 'present', '11': 'present', '12': 'present',
+      '15': 'absent', '16': 'present', '17': 'present', '18': 'present', '19': 'present',
+      '22': 'present', '23': 'halfday', '24': 'present', '25': 'present', '26': 'present',
+      '29': 'present', '30': 'present', '31': 'absent'
     }
   },
   { 
     id: 'MED002', 
-    name: 'Naman', 
+    name: 'Jane Smith', 
     department: 'Design', 
-    presentDays: '18/20', 
+    presentDays: '19/20', 
     attendance: {
-      '3': 'present', '4': 'absent', '5': 'present', '6': 'present', '7': 'present',
-      '10': 'present', '11': 'present', '12': 'present', '13': 'present', '14': 'absent'
+      '1': 'present', '2': 'present', '3': 'present', '4': 'present', '5': 'present',
+      '8': 'present', '9': 'present', '10': 'present', '11': 'present', '12': 'present',
+      '15': 'present', '16': 'absent', '17': 'present', '18': 'present', '19': 'present',
+      '22': 'present', '23': 'present', '24': 'present', '25': 'present', '26': 'present',
+      '29': 'present', '30': 'present', '31': 'present'
     }
   },
   { 
     id: 'MED003', 
-    name: 'Amit', 
+    name: 'Michael Brown', 
     department: 'Marketing', 
-    presentDays: '18/20', 
+    presentDays: '17/20', 
     attendance: {
-      '3': 'present', '4': 'present', '5': 'present', '6': 'absent', '7': 'present',
-      '10': 'present', '11': 'present', '12': 'absent', '13': 'present', '14': 'present'
+      '1': 'present', '2': 'present', '3': 'present', '4': 'present', '5': 'absent',
+      '8': 'present', '9': 'present', '10': 'absent', '11': 'present', '12': 'present',
+      '15': 'present', '16': 'present', '17': 'present', '18': 'present', '19': 'present',
+      '22': 'halfday', '23': 'present', '24': 'present', '25': 'present', '26': 'present',
+      '29': 'present', '30': 'present', '31': 'present'
     }
   },
   { 
     id: 'MED004', 
-    name: 'Mahesh', 
-    department: 'SALES', 
-    presentDays: '18/20', 
+    name: 'Emily Johnson', 
+    department: 'Sales', 
+    presentDays: '16/20', 
     attendance: {
-      '3': 'absent', '4': 'present', '5': 'present', '6': 'present', '7': 'present',
-      '10': 'present', '11': 'present', '12': 'present', '13': 'absent', '14': 'present'
+      '1': 'present', '2': 'present', '3': 'halfday', '4': 'present', '5': 'present',
+      '8': 'absent', '9': 'present', '10': 'present', '11': 'present', '12': 'present',
+      '15': 'present', '16': 'present', '17': 'present', '18': 'absent', '19': 'present',
+      '22': 'present', '23': 'present', '24': 'present', '25': 'present', '26': 'present',
+      '29': 'absent', '30': 'present', '31': 'present'
     }
   },
   { 
     id: 'MED005', 
-    name: 'Rohit', 
+    name: 'David Wilson', 
     department: 'HR', 
     presentDays: '18/20', 
     attendance: {
-      '3': 'present', '4': 'present', '5': 'present', '6': 'present', '7': 'absent',
-      '10': 'present', '11': 'present', '12': 'present', '13': 'present', '14': 'absent'
+      '1': 'present', '2': 'present', '3': 'present', '4': 'present', '5': 'present',
+      '8': 'present', '9': 'absent', '10': 'present', '11': 'present', '12': 'present',
+      '15': 'present', '16': 'present', '17': 'present', '18': 'present', '19': 'absent',
+      '22': 'present', '23': 'present', '24': 'halfday', '25': 'present', '26': 'present',
+      '29': 'present', '30': 'present', '31': 'present'
     }
   },
   { 
     id: 'MED006', 
-    name: 'Suresh', 
+    name: 'Sarah Miller', 
     department: 'IT', 
-    presentDays: '18/20', 
+    presentDays: '19/20', 
     attendance: {
-      '3': 'present', '4': 'present', '5': 'absent', '6': 'present', '7': 'present',
-      '10': 'halfday', '11': 'present', '12': 'present', '13': 'present', '14': 'present'
+      '1': 'present', '2': 'present', '3': 'present', '4': 'present', '5': 'present',
+      '8': 'present', '9': 'present', '10': 'present', '11': 'halfday', '12': 'present',
+      '15': 'present', '16': 'present', '17': 'present', '18': 'present', '19': 'present',
+      '22': 'present', '23': 'present', '24': 'present', '25': 'absent', '26': 'present',
+      '29': 'present', '30': 'present', '31': 'present'
     }
   }
 ];
 
 const AttendanceTracker: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>('attendance');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedMonth, setSelectedMonth] = useState<string>('January 2023');
+  
+  // Filter employees based on search term
+  const filteredEmployees = employeeAttendanceData.filter(employee => {
+    return (
+      employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      employee.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      employee.department.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
   const renderAttendanceStatus = (status?: 'present' | 'absent' | 'halfday' | 'pending' | 'weekend') => {
     if (!status) return <div className="w-6 h-6 mx-auto rounded-md border border-gray-200 bg-white"></div>;
@@ -121,15 +151,21 @@ const AttendanceTracker: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between gap-4 mb-6">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input type="search" placeholder="Search..." className="pl-8" />
+          <Input 
+            type="search" 
+            placeholder="Search employee..." 
+            className="pl-8" 
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+          />
         </div>
-        <div className="bg-white border rounded-md flex items-center p-2">
-          <Calendar className="h-5 w-5 text-blue-500 mr-2" />
-          <span className="text-sm font-medium">January 2023</span>
-        </div>
+        <Button variant="outline" className="flex items-center gap-2">
+          <Calendar className="h-5 w-5 text-blue-500" />
+          <span className="text-sm font-medium">{selectedMonth}</span>
+        </Button>
       </div>
 
       <Tabs value={currentTab} onValueChange={setCurrentTab} className="w-full">
@@ -167,7 +203,7 @@ const AttendanceTracker: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {employeeAttendanceData.map((employee) => (
+                {filteredEmployees.map((employee) => (
                   <TableRow key={employee.id}>
                     <TableCell className="font-medium">{employee.id}</TableCell>
                     <TableCell>{employee.name}</TableCell>
