@@ -69,14 +69,14 @@ const Navbar: React.FC = () => {
     { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
   ];
 
-  // Navigation items for employee role
+  // Navigation items for employee role - reorganized order and renamed Payroll to Payslip
   const employeeNavigationItems = [
     { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
-    { name: 'Leaves', href: '/dashboard/leave', icon: Calendar },
-    { name: 'Expenses', href: '/dashboard/expenses', icon: FileText },
-    { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
-    { name: 'Payroll', href: '/dashboard/payroll', icon: Receipt },
     { name: 'My Task', href: '/dashboard/tasks', icon: CheckSquare },
+    { name: 'Leaves', href: '/dashboard/leave', icon: Calendar },
+    { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar },
+    { name: 'Payslip', href: '/dashboard/payroll', icon: Receipt },
+    { name: 'Expenses', href: '/dashboard/expenses', icon: FileText },
   ];
 
   // Select navigation items based on current role
