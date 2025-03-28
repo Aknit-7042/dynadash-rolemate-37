@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,55 +5,48 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Search, Edit, Calendar } from 'lucide-react';
-
-const payrollData = [
-  {
-    id: 1,
-    name: 'John Doe',
-    paidDays: 20,
-    monthlyCTC: '₹5000',
-    thisMonthSalary: '₹4500',
-    basic: '₹3000',
-    deductions: '₹500',
-    taxes: '₹200',
-    professionalTax: '₹100',
-    reimbursement: '₹300',
-    advanceTaken: '₹400',
-    netPay: '₹3500'
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    paidDays: 22,
-    monthlyCTC: '₹6000',
-    thisMonthSalary: '₹5500',
-    basic: '₹3500',
-    deductions: '₹600',
-    taxes: '₹300',
-    professionalTax: '₹200',
-    reimbursement: '₹400',
-    advanceTaken: '₹500',
-    netPay: '₹4500'
-  },
-  {
-    id: 3,
-    name: 'Alice Johnson',
-    paidDays: 18,
-    monthlyCTC: '₹4000',
-    thisMonthSalary: '₹3500',
-    basic: '₹2500',
-    deductions: '₹400',
-    taxes: '₹200',
-    professionalTax: '₹100',
-    reimbursement: '₹300',
-    advanceTaken: '₹200',
-    netPay: '₹3300'
-  }
-];
-
+const payrollData = [{
+  id: 1,
+  name: 'John Doe',
+  paidDays: 20,
+  monthlyCTC: '₹5000',
+  thisMonthSalary: '₹4500',
+  basic: '₹3000',
+  deductions: '₹500',
+  taxes: '₹200',
+  professionalTax: '₹100',
+  reimbursement: '₹300',
+  advanceTaken: '₹400',
+  netPay: '₹3500'
+}, {
+  id: 2,
+  name: 'Jane Smith',
+  paidDays: 22,
+  monthlyCTC: '₹6000',
+  thisMonthSalary: '₹5500',
+  basic: '₹3500',
+  deductions: '₹600',
+  taxes: '₹300',
+  professionalTax: '₹200',
+  reimbursement: '₹400',
+  advanceTaken: '₹500',
+  netPay: '₹4500'
+}, {
+  id: 3,
+  name: 'Alice Johnson',
+  paidDays: 18,
+  monthlyCTC: '₹4000',
+  thisMonthSalary: '₹3500',
+  basic: '₹2500',
+  deductions: '₹400',
+  taxes: '₹200',
+  professionalTax: '₹100',
+  reimbursement: '₹300',
+  advanceTaken: '₹200',
+  netPay: '₹3300'
+}];
 const PayrollTable: React.FC = () => {
-  return (
-    <div className="space-y-4">
+  return <div className="space-y-4">
       <div className="flex justify-between items-center">
         <div className="relative w-72">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -65,7 +57,7 @@ const PayrollTable: React.FC = () => {
             <Edit className="h-4 w-4" />
             <span>Edit</span>
           </Button>
-          <Button variant="outline" className="gap-2">
+          <Button variant="outline" className="gap-2 font-medium rounded-sm text-xs text-slate-950">
             <Calendar className="h-4 w-4" />
             <span>January 2025</span>
           </Button>
@@ -101,8 +93,7 @@ const PayrollTable: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {payrollData.map((employee) => (
-                      <TableRow key={employee.id}>
+                    {payrollData.map(employee => <TableRow key={employee.id}>
                         <TableCell className="font-medium">{employee.name}</TableCell>
                         <TableCell>{employee.paidDays}</TableCell>
                         <TableCell>{employee.monthlyCTC}</TableCell>
@@ -114,8 +105,7 @@ const PayrollTable: React.FC = () => {
                         <TableCell>{employee.reimbursement}</TableCell>
                         <TableCell>{employee.advanceTaken}</TableCell>
                         <TableCell className="font-medium">{employee.netPay}</TableCell>
-                      </TableRow>
-                    ))}
+                      </TableRow>)}
                   </TableBody>
                 </Table>
               </div>
@@ -153,8 +143,6 @@ const PayrollTable: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>;
 };
-
 export default PayrollTable;
