@@ -1,15 +1,24 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useRole } from '@/context/RoleContext';
 import AttendanceTracker from '@/components/dashboard/hr/AttendanceTracker';
 import AttendanceCharts from '@/components/dashboard/hr/AttendanceCharts';
+import EmployeeAttendance from '@/components/dashboard/employee/EmployeeAttendance';
+
 const AttendancePage: React.FC = () => {
-  const {
-    currentRole
-  } = useRole();
+  const { currentRole } = useRole();
   const [activeTab, setActiveTab] = useState('tracker');
-  return <div className="space-y-6 animate-fade-in">
+  
+  // Show employee-specific view for employee role
+  if (currentRole === 'employee') {
+    return <EmployeeAttendance />;
+  }
+
+  // Show HR/Manager view for other roles
+  return (
+    <div className="space-y-6 animate-fade-in">
       <div>
         
         
@@ -42,6 +51,8 @@ const AttendancePage: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>;
+    </div>
+  );
 };
+
 export default AttendancePage;
