@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -51,7 +50,6 @@ const Sidebar: React.FC = () => {
       <div className="flex items-center justify-between p-4 border-b h-16">
         {!collapsed ? (
           <span className="font-semibold text-xl tracking-tight animate-fade-in">
-            RoleMate
           </span>
         ) : (
           <span className="flex justify-center w-full">
