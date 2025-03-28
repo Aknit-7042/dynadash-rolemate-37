@@ -109,6 +109,28 @@ const Sidebar: React.FC = () => {
         </div>
       </ScrollArea>
       
+      {/* Always visible toggle button at the bottom */}
+      <div className="p-4 border-t">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="w-full flex items-center justify-center"
+          onClick={toggleSidebar}
+        >
+          {collapsed ? (
+            <>
+              <ChevronRight className="h-4 w-4" />
+              <span className="sr-only">Expand</span>
+            </>
+          ) : (
+            <>
+              <ChevronLeft className="h-4 w-4 mr-2" />
+              <span>Collapse</span>
+            </>
+          )}
+        </Button>
+      </div>
+      
       {/* Mobile menu trigger */}
       <Button 
         variant="ghost" 
