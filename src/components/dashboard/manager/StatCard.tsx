@@ -14,13 +14,14 @@ export interface StatCardProps {
   icon: React.ReactNode;
   trendDirection?: 'up' | 'down' | 'neutral';
   onClick?: () => void;
+  isActive?: boolean;
 }
 
 const StatCard: React.FC<StatCardProps> = ({ 
-  title, value, description, trend, trendValue, icon, trendDirection = 'neutral', onClick
+  title, value, description, trend, trendValue, icon, trendDirection = 'neutral', onClick, isActive = false
 }) => {
   return (
-    <Card className={cn("card-hover", onClick && "cursor-pointer")} onClick={onClick}>
+    <Card className={cn("card-hover", onClick && "cursor-pointer", isActive && "border-blue-500 ring-1 ring-blue-500")} onClick={onClick}>
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <div className="h-9 w-9 flex items-center justify-center rounded-full bg-muted">
