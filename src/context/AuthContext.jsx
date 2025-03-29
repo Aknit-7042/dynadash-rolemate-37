@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const auth = useReduxAuth();
   
   return (
-    <AuthContext.Provider value={auth}>
+    <AuthContext.Provider value={auth || {}}>
       {children}
     </AuthContext.Provider>
   );

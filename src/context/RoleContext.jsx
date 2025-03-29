@@ -8,7 +8,7 @@ export const RoleProvider = ({ children }) => {
   const role = useReduxRole();
   
   return (
-    <RoleContext.Provider value={role}>
+    <RoleContext.Provider value={role || {}}>
       {children}
     </RoleContext.Provider>
   );

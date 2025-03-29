@@ -10,8 +10,8 @@ import {
 
 export const useReduxRole = () => {
   const dispatch = useDispatch();
-  const { currentRole, availableRoles, isRoleSwitching } = useSelector((state) => state.role);
-  const { user } = useSelector((state) => state.auth);
+  const { currentRole, availableRoles, isRoleSwitching } = useSelector((state) => state.role || {});
+  const { user } = useSelector((state) => state.auth || {});
 
   useEffect(() => {
     if (user && user.roles) {
@@ -36,10 +36,25 @@ export const useReduxRole = () => {
     dispatch(endRoleSwitching());
   };
 
+  // Add role color getter
+  const roleColor = (() => {
+    switch (currentRole) {
+      case 'hr':
+        return 'bg-hr text-hr-foreground';
+      case 'manager':
+        return 'bg-manager text-manager-foreground';
+      case 'employee':
+        return 'bg-employee text-employee-foreground';
+      default:
+        return 'bg-primary text-primary-foreground';
+    }
+  })();
+
   return {
     currentRole,
     availableRoles,
     isRoleSwitching,
     switchRole,
+    roleColor,
   };
 };
