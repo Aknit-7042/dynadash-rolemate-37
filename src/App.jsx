@@ -4,6 +4,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from 'react-redux';
+import { store } from "@/store";
 import { AuthProvider } from "@/context/AuthContext";
 import { RoleProvider } from "@/context/RoleContext";
 
@@ -23,38 +25,40 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <AuthProvider>
-        <RoleProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/dashboard" element={<MainLayout />}>
-                <Route index element={<Dashboard />} />
-                <Route path="employees" element={<EmployeesPage />} />
-                <Route path="attendance" element={<AttendancePage />} />
-                <Route path="leave" element={<LeaveManagementPage />} />
-                <Route path="team-member/:memberId" element={<TeamMemberPage />} />
-                <Route path="team" element={<TeamPage />} />
-                <Route path="expenses" element={<ExpensePage />} />
-                <Route path="payroll" element={<PayrollPage />} />
-                <Route path="reports" element={<Dashboard />} />
-                <Route path="users" element={<Dashboard />} />
-                <Route path="tasks" element={<Dashboard />} />
-                <Route path="updates" element={<Dashboard />} />
-                <Route path="settings" element={<Dashboard />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </RoleProvider>
-      </AuthProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <AuthProvider>
+          <RoleProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/dashboard" element={<MainLayout />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="employees" element={<EmployeesPage />} />
+                  <Route path="attendance" element={<AttendancePage />} />
+                  <Route path="leave" element={<LeaveManagementPage />} />
+                  <Route path="team-member/:memberId" element={<TeamMemberPage />} />
+                  <Route path="team" element={<TeamPage />} />
+                  <Route path="expenses" element={<ExpensePage />} />
+                  <Route path="payroll" element={<PayrollPage />} />
+                  <Route path="reports" element={<Dashboard />} />
+                  <Route path="users" element={<Dashboard />} />
+                  <Route path="tasks" element={<Dashboard />} />
+                  <Route path="updates" element={<Dashboard />} />
+                  <Route path="settings" element={<Dashboard />} />
+                </Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </RoleProvider>
+        </AuthProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </Provider>
 );
 
 export default App;
