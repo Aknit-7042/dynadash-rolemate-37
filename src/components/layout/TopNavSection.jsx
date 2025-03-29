@@ -12,17 +12,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 
 const TopNavSection = () => {
   const { user, logout } = useAuth();
-  const router = useRouter();
+  const navigate = useNavigate();
 
   if (!user) return null;
 
   const handleLogout = () => {
     logout();
-    router.push('/login');
+    navigate('/login');
   };
 
   const getInitials = (name) => {

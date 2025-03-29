@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +13,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ const LoginForm = () => {
       const success = await login(email, password);
       if (success) {
         toast.success('Welcome back!');
-        router.push('/dashboard');
+        navigate('/dashboard');
       } else {
         toast.error('Invalid credentials. Try jane@example.com (HR & Manager roles), john@example.com (Manager & Employee roles), alex@example.com (Employee role) or sarah@example.com (All roles)');
       }

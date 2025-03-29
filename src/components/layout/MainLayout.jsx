@@ -1,13 +1,12 @@
 
 import React from 'react';
-import { useRouter } from 'next/router';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   const { user, isAuthenticated, isLoading } = useAuth();
-  const router = useRouter();
 
   // If still loading, show a loading state
   if (isLoading) {
@@ -23,10 +22,7 @@ const MainLayout = ({ children }) => {
 
   // If not authenticated, redirect to login
   if (!isAuthenticated || !user) {
-    if (typeof window !== 'undefined') {
-      router.push('/login');
-    }
-    return null;
+    return <Navigate to="/login" replace />;
   }
 
   return (
@@ -36,7 +32,7 @@ const MainLayout = ({ children }) => {
         <Navbar />
         <div className="flex-1 overflow-auto bg-muted/30">
           <div className="container py-6 max-w-7xl">
-            {children}
+            <Outlet />
           </div>
         </div>
       </div>

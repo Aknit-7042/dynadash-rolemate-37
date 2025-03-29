@@ -16,6 +16,6 @@ export const store = configureStore({
     }),
 });
 
-// Export these as non-TypeScript declarations
+// Export these as values rather than types
 export const RootState = store.getState();
 export const AppDispatch = store.dispatch;
